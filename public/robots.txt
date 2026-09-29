@@ -1,0 +1,19 @@
+User-agent: *
+
+
+Disallow: /admin-dashboard/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /search
+Disallow: /api/
+Disallow: /thank-you/
+
+Allow: /
+Allow: /collections/
+Allow: /contact-information
+Allow: /privacy-policy
+Allow: /return-refund-policy
+Allow: /shipping-policy
+Allow: /terms-service
+
+Sitemap: https://www.zevoraofficial.com/sitemap.xml
