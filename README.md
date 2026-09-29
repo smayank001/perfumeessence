@@ -2,7 +2,7 @@
 
 > Premium watches, jewelry & perfumes built for conversion, optimized for scale.
 
-**Live Site:** [zevoraofficial.com](https://www.zevoraofficial.com) &nbsp;·&nbsp; **Built by:** [Mussadiq Khan](https://mussadiqkhan.vercel.app/)
+
 
 ---
 
@@ -96,10 +96,3 @@ The store serves customers nationwide across Karachi, Lahore, and Islamabad, wit
 
 ---
 
-## Live Demo
-
-🌐 [zevoraofficial.com](https://www.zevoraofficial.com)
-
----
-
-*Designed & developed by [Mussadiq Khan](https://mussadiqkhan.vercel.app/) · [Scrupulous](https://scrupulous.vercel.app)*
