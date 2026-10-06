@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { headerLinks } from '@/lib/constants';
 import { FiChevronDown, FiMenu, FiSearch, FiShoppingBag, FiX } from 'react-icons/fi';
 import Menu from './Menu';
@@ -95,14 +96,25 @@ const Header = () => {
           <div className="flex items-center">
             <Link
               href="/"
-              className="group flex flex-col items-start transition-opacity duration-300 hover:opacity-85"
+              className="group flex items-center gap-2.5 sm:gap-3 transition-opacity duration-300 hover:opacity-85"
             >
-              <span className="text-base sm:text-lg md:text-xl xl:text-2xl tracking-[0.24em] uppercase font-normal text-[#21132F] whitespace-nowrap">
-                THE PERFUME ESSENCE
-              </span>
-              <span className="text-[8px] sm:text-[9px] tracking-[0.38em] uppercase text-[#68447F] -mt-0.5">
-                HAUTE PARFUMERIE • MOON ESSENCE
-              </span>
+              <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-[#C8A45D]/60 bg-[#19151D] shadow-sm flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="The Perfume Essence Emblem"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-sm sm:text-base md:text-lg xl:text-xl tracking-[0.22em] uppercase font-normal text-[#21132F] whitespace-nowrap">
+                  THE PERFUME ESSENCE
+                </span>
+                <span className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] uppercase text-[#68447F] -mt-0.5">
+                  HAUTE PARFUMERIE • MOON ESSENCE
+                </span>
+              </div>
             </Link>
           </div>
 

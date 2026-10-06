@@ -2,6 +2,7 @@
 
 import { headerLinks } from '@/lib/constants';
 import Link from 'next/link';
+import Image from 'next/image';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiChevronDown, FiX, FiArrowRight } from 'react-icons/fi';
@@ -36,14 +37,24 @@ const Menu = ({
           onClick={(e) => e.stopPropagation()}
         >
           {/* Menu Header */}
-          <div className="p-6 border-b border-[#D8CEDA] bg-[#EFE7DA] flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-sm tracking-[0.24em] uppercase font-normal text-[#21132F]">
-                THE PERFUME ESSENCE
-              </span>
-              <span className="text-[8px] tracking-[0.38em] uppercase text-[#68447F]">
-                HAUTE PARFUMERIE • MOON ESSENCE
-              </span>
+          <div className="p-5 border-b border-[#D8CEDA] bg-[#EFE7DA] flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden border border-[#C8A45D]/60 bg-[#19151D] shadow-sm flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="The Perfume Essence Logo"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm tracking-[0.24em] uppercase font-normal text-[#21132F]">
+                  THE PERFUME ESSENCE
+                </span>
+                <span className="text-[8px] tracking-[0.38em] uppercase text-[#68447F]">
+                  HAUTE PARFUMERIE • MOON ESSENCE
+                </span>
+              </div>
             </div>
             <button
               onClick={() => setMenuOpen(false)}

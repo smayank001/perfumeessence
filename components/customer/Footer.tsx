@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FiInstagram, FiFacebook, FiArrowRight, FiCheck } from 'react-icons/fi';
 
 const Footer = () => {
@@ -24,9 +25,17 @@ const Footer = () => {
           
           {/* Column 1: Brand & Philosophy (4 cols) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="inline-flex items-center gap-3.5 group">
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border border-[#C8A45D]/60 bg-[#19151D] shadow-md flex-shrink-0 group-hover:border-[#C8A45D] transition-colors">
+                <Image
+                  src="/logo.png"
+                  alt="The Perfume Essence Insignia"
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl tracking-[0.24em] uppercase font-normal text-[#F7F2E8]">
+                <span className="text-xl sm:text-2xl tracking-[0.24em] uppercase font-normal text-[#F7F2E8] group-hover:text-[#DCC7A3] transition-colors">
                   THE PERFUME ESSENCE
                 </span>
                 <span className="text-[9px] tracking-[0.38em] uppercase text-[#DCC7A3]">

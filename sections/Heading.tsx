@@ -126,6 +126,7 @@ const Heading = () => {
   //     </div>
   //   </section>
   // );
+  return null;
 };
 
 export default Heading;
