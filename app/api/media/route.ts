@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
         {
           success: false,
           message:
-            "Media uploads require CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET in .env.local.",
+            "Media uploads require CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to be configured.",
         },
         { status: 503 }
       );

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const { MONGODB_URL } = require('../config');
 
-const uri = process.env.MONGODB_URL || 'mongodb+srv://theperfumeessence_db_user:JfVrZe2SPcZhzw6u@cluster0.9y7syba.mongodb.net/zevora?appName=Cluster0';
+const uri = MONGODB_URL;
 
 const VariantSchema = new mongoose.Schema({
   label: { type: String, required: true },

@@ -1,168 +1,170 @@
-"use client";
+'use client';
 
-import { serif } from "@/lib/fonts";
-import React from "react";
-import { motion } from "framer-motion";
-import { ShieldCheck, Truck, Headphones, Sparkles, Award, MapPin } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import React from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
 
-const features = [
-  { 
-    text: "Complimentary Shipping", 
-    icon: <Truck size={24} />, 
-    desc: "Experience luxury delivered to your doorstep. Enjoy Free Shipping on all orders above INR 5,000." 
+const luxuryPillars = [
+  {
+    number: '01',
+    title: 'Complimentary Insured Shipping',
+    desc: 'Enjoy insured, complimentary express delivery across India on all orders exceeding ₹5,000.',
   },
-  { 
-    text: "Exclusive Surprise Gift", 
-    icon: <Sparkles size={24} />, 
-    desc: "A token of our appreciation—receive a handcrafted accessory with every order exceeding INR 5,000." 
+  {
+    number: '02',
+    title: 'Nocturnal Formulations',
+    desc: 'Compounded with rare essences, pure botanical extraits, and long-lasting 12+ hour sillage.',
   },
-  { 
-    text: "Direct-to-Consumer Luxury", 
-    icon: <Award size={24} />, 
-    desc: "We eliminate middleman markups to provide world-class craftsmanship at honest, direct-to-you prices." 
+  {
+    number: '03',
+    title: 'Authentic Craftsmanship',
+    desc: '100% verified authentic materials, hypoallergenic stainless steel, and gold plating.',
   },
-  { 
-    text: "Nationwide Express", 
-    icon: <MapPin size={24} />, // Changed icon for variety
-    desc: "Insured and rapid delivery reaching Mumbai, New Delhi, Bengaluru, and every corner of India." 
+  {
+    number: '04',
+    title: 'Pan-India Express',
+    desc: 'Rapid express logistics reaching Mumbai, New Delhi, Bengaluru, Hyderabad, and every corner of India.',
   },
-  { 
-    text: "Master Craftsmanship", 
-    icon: <ShieldCheck size={24} />, 
-    desc: "Every THE PERFUME ESSENCE piece is a testament to precision, using premium, tarnish-free, and skin-friendly materials." 
+  {
+    number: '05',
+    title: 'Signature Velvet Packaging',
+    desc: 'Moon Essence luxury presentation boxes designed for an unforgettable unboxing and gifting experience.',
   },
-  { 
-    text: "Concierge Support", 
-    icon: <Headphones size={24} />, 
-    desc: "Our dedicated jewelry experts are available 24/7 to assist you with selection and styling." 
+  {
+    number: '06',
+    title: 'Fragrance Concierge',
+    desc: 'Dedicated olfactory and styling specialists to assist you with bespoke fragrance recommendations.',
   },
 ];
 
 const About = () => {
   return (
-    <section className="bg-[#FCF9F6] h-full text-[#1a1a1a] py-20 px-4 sm:px-6 md:px-12 overflow-hidden border-t border-stone-100">
-      <div className="max-w-7xl flex flex-col mx-auto">
-        
-        {/* Header Section: SEO-Optimized Heading */}
-        <header className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div className="max-w-2xl">
-            <motion.span 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="text-[10px] uppercase tracking-[0.4em] text-amber-800 font-bold mb-4 block"
-            >
-              The THE PERFUME ESSENCE Legacy — Est. 2024
-            </motion.span>
-            <motion.h2
-              className={`${serif.className} text-4xl sm:text-5xl md:text-[60px] leading-[1.1] font-light text-zinc-900`}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              Defining the New Standard of <br /> 
-              <span className="italic">Luxury in India</span>
-            </motion.h2>
-          </div>
-          
-          {/* Trust Badge */}
-          <motion.div 
-            className="flex items-center gap-5 bg-white p-5 pr-8 rounded-full shadow-sm border border-stone-200"
-            whileHover={{ y: -5 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            <div className="bg-stone-900 p-3 rounded-full text-white">
-              <ShieldCheck size={28} />
-            </div>
-            <div>
-              <p className="text-xl font-bold leading-none italic">80k+</p>
-              <p className="text-[10px] uppercase tracking-widest text-stone-500 mt-1">Verified Experiences</p>
-            </div>
-          </motion.div>
-        </header>
+    <section className="relative w-full bg-[#EFE7DA] py-16 md:py-28 px-4 sm:px-6 lg:px-10 border-b border-[#D8CEDA] font-serif overflow-hidden select-none">
+      <div className="max-w-7xl mx-auto space-y-20 md:space-y-28">
 
-        {/* Mission Statement: The "Why Us" */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          <motion.article 
-            className="bg-white p-7 sm:p-10 md:p-16 rounded-[40px] border border-stone-100 flex flex-col justify-center shadow-[0_4px_20px_-5px_rgba(0,0,0,0.05)]"
-            initial={{ opacity: 0, x: -30 }}
+        {/* PART 1: Magazine Spread Brand Story */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+          {/* Left: Large Editorial Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -25 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 relative"
           >
-            <p className={`${serif.className} text-xl md:text-3xl tracking-tight text-zinc-800`}>
-              "We believe luxury isn't a price tag it's an experience. Our mission is to democratize 
-              premium watches and fine jewelry across India, blending 
-              timeless aesthetics with <span className="text-amber-800">uncompromising quality</span>."
+            <div className="relative bg-[#FFFFFF] p-3 sm:p-5 border border-[#D8CEDA] shadow-[0_20px_50px_-20px_rgba(33,19,47,0.1)]">
+              <div className="relative w-full aspect-[4/5] overflow-hidden bg-[#21132F]">
+                <Image
+                  src="/moon_essence_1.jpg"
+                  alt="THE PERFUME ESSENCE Atelier Craftsmanship"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center transition-transform duration-[2000ms] hover:scale-105"
+                />
+              </div>
+              <div className="pt-3 flex items-center justify-between text-[9px] uppercase tracking-[0.25em] text-[#68447F]">
+                <span>ATELIER NO. 24</span>
+                <span className="text-[#C8A45D]">MOON ESSENCE COLLECTION</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: Editorial Storytelling */}
+          <motion.div
+            initial={{ opacity: 0, x: 25 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-6 space-y-6 lg:pl-4"
+          >
+            <div className="flex items-center gap-2">
+              <span className="h-px w-6 bg-[#C8A45D]" />
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-[#68447F] font-normal">
+                THE PERFUME ESSENCE
+              </span>
+            </div>
+
+            {/* <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[52px] leading-[1.1] text-[#21132F] font-normal tracking-tight">
+              A SCENT, <br />
+              <span className="italic font-normal text-[#68447F]">A SIGNATURE,</span> <br />
+              AN IDENTITY.
+            </h2> */}
+
+            <div className="w-16 h-px bg-[#C8A45D]" />
+
+            <p className="text-base sm:text-lg text-[#6E6472] leading-relaxed font-normal">
+              Born from a passion for rare nocturnal essences and timeless refinement, THE PERFUME ESSENCE was created
+              to bring haute parfumerie, artisanal craftsmanship, and poetic luxury to the modern connoisseur.
             </p>
-          </motion.article>
 
-          <motion.div 
-            className="relative overflow-hidden min-h-[350px] rounded-[40px] shadow-sm group"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-          >
-            <Image 
-              src="/mission.webp" 
-              alt="THE PERFUME ESSENCE luxury craftsmanship - Premium Watches and Jewelry India" 
-              fill
-              className="object-cover transition-transform duration-1000 group-hover:scale-105" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60" />
+            <p className="text-sm sm:text-base text-[#6E6472] leading-relaxed font-normal">
+              Every bottle in our Moon Essence atelier represents a masterclass in formulation—blending exotic agarwood,
+              night-blooming jasmine, rich amber, and velvety violet florals that evolve intimately on your skin.
+              Alongside our fragrances, our curated timepieces and jewelry reflect the same unwavering commitment to perfection.
+            </p>
+
+            <div className="pt-4">
+              <Link
+                href="/contact-information"
+                className="btn-luxury-secondary"
+              >
+                <span>Read Our Story</span>
+                <FiArrowRight className="ml-2 w-4 h-4 text-[#C8A45D]" />
+              </Link>
+            </div>
           </motion.div>
+
         </div>
 
-        {/* Value Proposition Grid */}
-        <section className="mt-12">
-          <div className="flex items-center gap-4 mb-10">
-            <h3 className="text-xs uppercase tracking-[0.3em] font-bold text-stone-900">Why Connoisseurs Choose THE PERFUME ESSENCE</h3>
-            <div className="h-px flex-1 bg-stone-200" />
+        {/* PART 2: Why Choose Us — The Principles of Luxury */}
+        <div className="pt-10 border-t border-[#D8CEDA]">
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-[#D8CEDA]">
+            <div>
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#C8A45D] font-normal block mb-1">
+                OUR COMMITMENT
+              </span>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl text-[#21132F] font-normal tracking-tight">
+                The Principles of Our Atelier
+              </h3>
+            </div>
+            <p className="text-xs sm:text-sm text-[#6E6472] mt-2 md:mt-0 max-w-sm tracking-wide font-normal">
+              Crafted without compromise, delivered with distinction across India.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-20">
-            {features.map((feature, index) => (
+
+          {/* Editorial Numbered Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+            {luxuryPillars.map((pillar, idx) => (
               <motion.div
-                key={index}
-                className="bg-white p-8 rounded-3xl border border-stone-100 hover:border-stone-900 transition-all duration-500 group"
+                key={pillar.number}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                className="bg-[#FFFFFF] p-6 sm:p-8 border border-[#D8CEDA] transition-all duration-400 hover:border-[#C8A45D] hover:shadow-[0_12px_32px_-12px_rgba(33,19,47,0.08)] flex flex-col justify-between"
               >
-                <div className="text-stone-900 mb-6 group-hover:scale-110 transition-transform duration-300">
-                  {feature.icon}
+                <div>
+                  <span className="text-2xl sm:text-3xl text-[#C8A45D] font-normal block mb-4">
+                    {pillar.number}
+                  </span>
+                  <h4 className="text-lg sm:text-xl text-[#21132F] font-normal tracking-wide mb-2">
+                    {pillar.title}
+                  </h4>
+                  <p className="text-xs sm:text-sm text-[#6E6472] leading-relaxed font-normal">
+                    {pillar.desc}
+                  </p>
                 </div>
-                <h4 className="text-lg font-bold mb-3 text-zinc-900">
-                  {feature.text}
-                </h4>
-                <p className="text-sm text-stone-500 leading-relaxed font-light">
-                  {feature.desc}
-                </p>
+                <div className="w-8 h-px bg-[#D8CEDA] mt-6" />
               </motion.div>
             ))}
           </div>
-        </section>
 
-        {/* SEO Footer with Geo-Tagging */}
-        <footer className="text-center border-t border-stone-200 pt-12">
-          <div className="flex items-center justify-center gap-2 text-stone-400 mb-4">
-            <MapPin size={14} />
-            <span className="text-[11px] uppercase tracking-[0.2em]">Based in New Delhi • Shipping Nationwide</span>
-          </div>
-          <p className="text-stone-500 max-w-2xl mx-auto mb-10 font-light text-[15px] leading-relaxed">
-            From the heart of New Delhi to the streets of Bengaluru and around the world, we are proud to be India's 
-            fastest-growing luxury destination. Experience the THE PERFUME ESSENCE standard today.
-          </p>
-          <Link 
-            href="/collections" 
-            className="inline-block bg-zinc-900 text-white px-12 py-5 rounded-full text-[10px] font-bold tracking-[0.3em] uppercase hover:bg-zinc-800 transition-all shadow-xl active:scale-95"
-          >
-            Enter the Collection
-          </Link>
-        </footer>
+        </div>
+
       </div>
     </section>
   );

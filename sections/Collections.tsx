@@ -1,97 +1,234 @@
 'use client';
-import { useRef, useEffect, useState } from 'react';
-import { motion, useTransform, useScroll } from 'framer-motion';
-import { collections } from '@/lib/constants';
-import { serif } from '@/lib/fonts';
+
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiArrowRight, FiArrowUpRight } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+
+const editorialCollections = [
+  {
+    title: 'Moon Essence Perfumes',
+    subtitle: 'Extrait de Parfum & Artisanal Blends',
+    description: 'Compounded with rare botanicals, precious ouds, and velvet ambers.',
+    category: 'HAUTE PARFUMERIE',
+    image: '/moon_essence_1.jpg',
+    link: '/collections/perfumes',
+    featured: true,
+  },
+  {
+    title: 'Signature Fragrances',
+    subtitle: 'Private Atelier Blends',
+    description: 'Captivating sillage crafted for memorable evenings and nocturnal mystery.',
+    category: 'EXCLUSIVE EDIT',
+    image: '/moon_essence_2.jpg',
+    link: '/collections/deals',
+    featured: false,
+  },
+  {
+    title: 'Precision Timepieces',
+    subtitle: 'Classic Precision & Craft',
+    description: 'Elegance for every hour.',
+    category: 'TIMEPIECES',
+    image: '/Images/image copy 3.png',
+    link: '/collections/watches',
+    featured: false,
+  },
+  {
+    title: 'Fine Jewellery Sets',
+    subtitle: 'Heirloom Design & Luster',
+    description: 'Matching sets of understated grace.',
+    category: 'JEWELLERY',
+    image: '/Images/image copy 4.png',
+    link: '/collections/jewelry-set',
+    featured: false,
+  },
+  {
+    title: 'Gold Plated & Steel',
+    subtitle: 'Tarnish-Free Daily Luxury',
+    description: 'Resilient beauty for everyday wear.',
+    category: 'WRISTWEAR',
+    image: '/Images/image copy 7.png',
+    link: '/collections/stainless-steel-bracelets',
+    featured: false,
+  },
+];
 
 const Collections = () => {
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const [xRange, setXRange] = useState(["0%", "0%"]);
-
-  useEffect(() => {
-    const calculateScroll = () => {
-      if (scrollRef.current) {
-        // Total width of all cards combined
-        const totalWidth = scrollRef.current.scrollWidth;
-        // The width visible on screen
-        const viewportWidth = window.innerWidth;
-        
-        // We only want to scroll as far as the overflow goes
-        // We add a little extra (e.g., 100px) so the last card doesn't touch the edge
-        const scrollDistance = totalWidth - viewportWidth + 100;
-        
-        // Convert that pixel distance into a negative translate value
-        setXRange(["0px", `-${scrollDistance}px`]);
-      }
-    };
-
-    calculateScroll();
-    window.addEventListener('resize', calculateScroll);
-    return () => window.removeEventListener('resize', calculateScroll);
-  }, []);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  // Use the dynamically calculated pixel values instead of percentages
-  const x = useTransform(scrollYProgress, [0, 1], xRange);
+  const mainFeature = editorialCollections[0];
+  const secondaryFeature = editorialCollections[1];
+  const gridCollections = editorialCollections.slice(2);
 
   return (
-    <section ref={targetRef} className="relative h-[600vh] bg-white">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+    <section className="relative w-full bg-[#F7F2E8] py-16 md:py-24 px-4 sm:px-6 lg:px-10 border-b border-[#D8CEDA] font-serif select-none">
+      <div className="max-w-7xl mx-auto">
         
-        {/* We move the max-w-7xl inside so the container can stretch full-width for the scroll */}
-        <div className="w-full">
-          <div className='max-w-7xl mx-auto px-4'>
-            <div className='flex justify-between items-center mt-17 md:mt-10 mb-6 sm:mb-10'>
-                <h2 className={`${serif.className} text-[26px] sm:text-[42px] leading-9 sm:leading-12 italic`}>
-                    Explore Our <br /> Signature Collections
-                </h2>
-                <Link href={"/collections/all"} className='hidden border-b pb-1 uppercase font-light text-lg md:flex gap-2 items-center'>
-                  View All <FiArrowRight />
-                </Link>
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 pb-6 border-b border-[#D8CEDA]">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="h-px w-6 bg-[#C8A45D]" />
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#68447F] font-normal">
+                CURATED EDITIONS
+              </span>
             </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl text-[#21132F] font-normal tracking-tight">
+              Explore Our Signature Collections
+            </h2>
           </div>
 
-          {/* Added ref={scrollRef} and removed max-w restriction for the track container */}
-          <motion.div ref={scrollRef} style={{ x }} className="flex gap-8 px-4 mb-20 md:mb-12">
-            {collections.map((item) => {
-              const isComingSoon = item.link !== '/collections/perfumes' && item.link !== '/collections/all' && item.link !== '/collections/deals';
-              return (
-                <Link 
-                  key={item.name} 
-                  className='group flex-shrink-0 w-[78vw] sm:w-[360px] md:w-[320px]' 
-                  href={item.link}
-                >
-                  <article className='flex flex-col items-center'>
-                    <div className="relative overflow-hidden w-full rounded-2xl bg-stone-100 shadow-md group-hover:shadow-2xl transition-all duration-500 border border-stone-200/60">
-                      {isComingSoon && (
-                        <span className="absolute top-3.5 right-3.5 z-10 text-[10px] tracking-widest uppercase font-semibold px-3 py-1 rounded-full bg-zinc-950/85 backdrop-blur-md text-amber-300 border border-amber-500/30 shadow-lg">
-                          Coming Soon
-                        </span>
-                      )}
-                      <Image 
-                        className='h-[360px] sm:h-[400px] md:h-[440px] w-full group-hover:scale-105 transition-all duration-500 object-center object-cover' 
-                        src={item.image} 
-                        alt={item.name} 
-                        width={400} 
-                        height={440} 
-                      />
-                    </div>
-                    <h2 className={`${serif.className} flex items-center gap-2 mt-3 text-lg sm:text-[21px] text-zinc-900 group-hover:text-amber-800 transition-colors whitespace-nowrap`}>
-                      {item.name} <FiArrowUpRight className='mt-1 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
-                    </h2>
-                  </article>
-                </Link>
-              );
-            })}
-          </motion.div>
+          <Link
+            href="/collections/all"
+            className="mt-4 md:mt-0 inline-flex items-center text-xs uppercase tracking-[0.2em] text-[#21132F] hover:text-[#C8A45D] transition-colors luxury-link self-start md:self-auto"
+          >
+            <span>View All Collections</span>
+            <FiArrowRight className="ml-2 w-4 h-4 text-[#C8A45D]" />
+          </Link>
         </div>
+
+        {/* Asymmetrical Editorial Grid */}
+        <div className="space-y-6 md:space-y-8">
+          
+          {/* Top Row: Large Feature + Complementary Feature */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+            
+            {/* Feature 1: Luxury Perfumes (7 Columns) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-7"
+            >
+              <Link
+                href={mainFeature.link}
+                className="group block relative bg-[#FFFFFF] border border-[#D8CEDA] overflow-hidden p-6 sm:p-8 transition-all duration-500 hover:border-[#C8A45D] hover:shadow-[0_16px_40px_-16px_rgba(33,19,47,0.12)]"
+              >
+                <div className="relative w-full h-[320px] sm:h-[420px] overflow-hidden bg-[#21132F] mb-6">
+                  <Image
+                    src={mainFeature.image}
+                    alt={mainFeature.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute top-4 left-4 bg-[#21132F]/90 backdrop-blur-sm px-3 py-1 text-[9px] uppercase tracking-[0.25em] text-[#F7F2E8] border border-[#C8A45D]/40">
+                    {mainFeature.category}
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                  <div>
+                    <span className="text-[11px] uppercase tracking-[0.2em] text-[#68447F]">
+                      {mainFeature.subtitle}
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl text-[#21132F] font-normal tracking-wide mt-1 group-hover:text-[#68447F] transition-colors">
+                      {mainFeature.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-[#6E6472] max-w-md mt-1.5 leading-relaxed font-normal">
+                      {mainFeature.description}
+                    </p>
+                  </div>
+
+                  <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-[#21132F] font-normal group-hover:text-[#C8A45D] transition-colors self-start sm:self-auto whitespace-nowrap">
+                    <span>Explore Collection</span>
+                    <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+
+            {/* Feature 2: Signature Fragrances (5 Columns) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="lg:col-span-5"
+            >
+              <Link
+                href={secondaryFeature.link}
+                className="group block relative bg-[#FFFFFF] border border-[#D8CEDA] overflow-hidden p-6 sm:p-8 h-full flex flex-col justify-between transition-all duration-500 hover:border-[#C8A45D] hover:shadow-[0_16px_40px_-16px_rgba(33,19,47,0.12)]"
+              >
+                <div className="relative w-full h-[320px] sm:h-[420px] overflow-hidden bg-[#21132F] mb-6">
+                  <Image
+                    src={secondaryFeature.image}
+                    alt={secondaryFeature.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                  />
+                  <div className="absolute top-4 left-4 bg-[#21132F]/90 backdrop-blur-sm px-3 py-1 text-[9px] uppercase tracking-[0.25em] text-[#F7F2E8] border border-[#C8A45D]/40">
+                    {secondaryFeature.category}
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between gap-3">
+                  <div>
+                    <span className="text-[11px] uppercase tracking-[0.2em] text-[#68447F]">
+                      {secondaryFeature.subtitle}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl text-[#21132F] font-normal tracking-wide mt-1 group-hover:text-[#68447F] transition-colors">
+                      {secondaryFeature.title}
+                    </h3>
+                  </div>
+
+                  <div className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-[#21132F] font-normal group-hover:text-[#C8A45D] transition-colors self-start whitespace-nowrap pt-2">
+                    <span>Explore Collection</span>
+                    <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+
+          </div>
+
+          {/* Bottom Row: 3 Editorial Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {gridCollections.map((item, idx) => (
+              <motion.div
+                key={item.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+              >
+                <Link
+                  href={item.link}
+                  className="group block relative bg-[#FFFFFF] border border-[#D8CEDA] overflow-hidden p-5 sm:p-6 transition-all duration-500 hover:border-[#C8A45D] hover:shadow-[0_12px_32px_-12px_rgba(33,19,47,0.08)]"
+                >
+                  <div className="relative w-full h-[260px] sm:h-[280px] overflow-hidden bg-[#F5F0F7] mb-4">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute top-3 left-3 bg-[#FFFFFF]/95 backdrop-blur-sm px-2.5 py-0.5 text-[8px] uppercase tracking-[0.25em] text-[#21132F] border border-[#D8CEDA]">
+                      {item.category}
+                    </div>
+                  </div>
+
+                  <div className="flex items-end justify-between pt-1">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-[#68447F]">
+                        {item.subtitle}
+                      </span>
+                      <h4 className="text-lg text-[#21132F] font-normal tracking-wide mt-0.5 group-hover:text-[#68447F] transition-colors">
+                        {item.title}
+                      </h4>
+                    </div>
+
+                    <FiArrowUpRight className="w-4 h-4 text-[#21132F] group-hover:text-[#C8A45D] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 mb-1" />
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

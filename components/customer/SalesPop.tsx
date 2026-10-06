@@ -1,23 +1,59 @@
-"use client";
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { productType } from '@/type';
+import { FiX, FiCheck } from 'react-icons/fi';
 
-const cities = ["Mumbai", "New Delhi", "Bengaluru", "Uttar Pradesh", "Goa", "Madhya Pradesh", "Rajasthan", "Uttrakhand", "Kerala", "Tamil Nadu", "Hyderabad"];
-const names = ["Ayesha", "Sana", "Zainab", "Fatima", "Hina", "Maryam", "Kiran", "Amna", "Sadia", "Anum", "Hira", "Laiba", "Ahmed", "Kashaf", "Manwahid hussain", "omer", "Khusbakht", "Gulwareen"];
+const cities = [
+  'Mumbai',
+  'New Delhi',
+  'Bengaluru',
+  'Hyderabad',
+  'Jaipur',
+  'Kolkata',
+  'Pune',
+  'Ahmedabad',
+  'Chandigarh',
+  'Goa',
+  'Chennai',
+];
+
+const names = [
+  'Aanya',
+  'Rhea',
+  'Kabir',
+  'Arjun',
+  'Tara',
+  'Devika',
+  'Zoya',
+  'Samarth',
+  'Pooja',
+  'Rohan',
+  'Isha',
+  'Ananya',
+  'Karan',
+];
 
 const SalesPop = () => {
   const [show, setShow] = useState(false);
-  const [data, setData] = useState({ name: "", city: "", product: "", slug: "", category: "", time: "" });
+  const [data, setData] = useState({
+    name: '',
+    city: '',
+    product: '',
+    slug: '',
+    category: '',
+    time: '',
+  });
   const [products, setProducts] = useState<productType[]>([]);
 
   const fetchData = async () => {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch('/api/products');
       const json = await res.json();
       setProducts(Array.isArray(json?.data) ? json.data : []);
     } catch (error) {
-      console.error("Failed to fetch products for SalesPop", error);
+      console.error('Failed to fetch products for SalesPop', error);
       setProducts([]);
     }
   };
@@ -27,91 +63,70 @@ const SalesPop = () => {
   }, []);
 
   useEffect(() => {
-    // Only start the interval if we actually have products to show
     if (!products || products.length === 0) return;
 
     const triggerPop = () => {
       const randomName = names[Math.floor(Math.random() * names.length)];
       const randomCity = cities[Math.floor(Math.random() * cities.length)];
       const randomProduct = products[Math.floor(Math.random() * products.length)];
-      const randomTime = Math.floor(Math.random() * 50) + 2;
+      const randomTime = Math.floor(Math.random() * 40) + 3;
 
       setData({
         name: randomName,
         city: randomCity,
         product: randomProduct.name,
         slug: randomProduct.slug,
-        category: randomProduct.category,
-        time: `${randomTime} minutes ago`
+        category: randomProduct.category || 'perfumes',
+        time: `${randomTime}m ago`,
       });
 
       setShow(true);
-
-      // Hide after 6 seconds
-      setTimeout(() => setShow(false), 4000);
+      setTimeout(() => setShow(false), 5000);
     };
 
-    // Initial delay 5s, then every 20s to keep it realistic
-    const initialTimeout = setTimeout(triggerPop, 6000);
-    const interval = setInterval(triggerPop, 30000);
+    const initialTimeout = setTimeout(triggerPop, 7000);
+    const interval = setInterval(triggerPop, 35000);
 
     return () => {
       clearTimeout(initialTimeout);
       clearInterval(interval);
     };
-  }, [products]); // Re-run effect when products are loaded
+  }, [products]);
 
   if (!show || !data.product) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-[100] animate-in fade-in slide-in-from-bottom-5 duration-700">
-      <div className="bg-white border border-zinc-100 shadow-[0_10px_30px_rgba(0,0,0,0.12)] rounded-2xl p-3 flex items-center gap-4 max-w-[320px] relative overflow-hidden">
-
+    <div className="fixed bottom-5 left-5 z-[80] font-serif select-none animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="bg-[#FFFFFF] border border-[#D8CEDA] shadow-[0_12px_32px_-8px_rgba(33,19,47,0.12)] p-3.5 flex items-center gap-3.5 max-w-[340px] relative">
         {/* Verification Checkmark */}
-        <div className="bg-green-500 h-11 w-11 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm shadow-green-200">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-          </svg>
+        <div className="w-8 h-8 rounded-full bg-[#F5F0F7] border border-[#D8CEDA] flex items-center justify-center flex-shrink-0 text-[#C8A45D]">
+          <FiCheck className="w-4 h-4" />
         </div>
 
-        <div className="flex flex-col pr-4">
-          <p className="text-[11px] text-zinc-500 leading-tight">
-            <span className="font-bold text-zinc-900">{data.name}</span> from <span className="font-bold text-zinc-900">{data.city}</span>
+        <div className="flex flex-col pr-4 overflow-hidden">
+          <p className="text-[11px] text-[#6E6472] leading-tight">
+            <span className="font-medium text-[#21132F]">{data.name}</span> in{' '}
+            <span className="text-[#21132F]">{data.city}</span>
           </p>
           <Link
             href={`/collections/${data.category}/${data.slug}`}
-            className="text-[11px] text-zinc-700 mt-0.5 hover:underline decoration-red-500 underline-offset-2"
+            className="text-[11px] text-[#21132F] font-normal mt-0.5 truncate hover:text-[#C8A45D] transition-colors"
           >
-            purchased <span className="text-red-600 font-semibold">{data.product}</span>
+            Acquired <span className="underline decoration-[#C8A45D]">{data.product}</span>
           </Link>
-          <div className="flex items-center gap-2 mt-1.5">
-            <span className="text-[9px] text-zinc-400 font-bold uppercase tracking-wider">
-              {data.time}
-            </span>
-          </div>
+          <span className="text-[9px] text-[#68447F] uppercase tracking-[0.15em] mt-1">
+            Verified Purchase • {data.time}
+          </span>
         </div>
 
         <button
           onClick={() => setShow(false)}
-          className="absolute top-2 right-2 text-zinc-300 hover:text-zinc-500 transition-colors"
+          className="absolute top-2 right-2 text-[#A58AB8] hover:text-[#21132F] transition-colors p-1 cursor-pointer"
+          aria-label="Dismiss"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <FiX className="w-3.5 h-3.5" />
         </button>
-
-        {/* Subtle Progress Bar (Sale Hype) */}
-        <div className="absolute bottom-0 left-0 h-1 bg-red-500/10 w-full">
-            <div className="h-full bg-red-500 animate-[progress_6s_linear]"></div>
-        </div>
       </div>
-
-      <style jsx>{`
-        @keyframes progress {
-          from { width: 100%; }
-          to { width: 0%; }
-        }
-      `}</style>
     </div>
   );
 };

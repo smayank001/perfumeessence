@@ -4,6 +4,7 @@ import OrderTable from "@/components/admin/OrderTable";
 import { Order } from "@/type";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { NEXT_PUBLIC_BASE_URL } from "@/config";
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -13,7 +14,7 @@ export default function OrdersPage() {
     const fetchOrders = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/order`
+          `${NEXT_PUBLIC_BASE_URL || ''}/api/order`
         );
         setOrders(Array.isArray(res.data?.orders) ? res.data.orders : []);
       } catch (error) {

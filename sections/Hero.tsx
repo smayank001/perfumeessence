@@ -1,188 +1,275 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import RotatingText from '@/components/ui/RotatingText'
-import { serif } from '@/lib/fonts'
-import Image from 'next/image'
-import Link from 'next/link'
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowRight, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-const sliderImages = [
-  { src: '/Images/image.png', alt: 'THE PERFUME ESSENCE luxury collection 1' },
-  { src: '/Images/image copy.png', alt: 'THE PERFUME ESSENCE luxury collection 2' },
-  { src: '/Images/image copy 2.png', alt: 'THE PERFUME ESSENCE luxury collection 3' },
-  { src: '/Images/image copy 3.png', alt: 'THE PERFUME ESSENCE luxury collection 4' },
-  { src: '/Images/image copy 4.png', alt: 'THE PERFUME ESSENCE luxury collection 5' },
-  { src: '/Images/image copy 5.png', alt: 'THE PERFUME ESSENCE luxury collection 6' },
-  { src: '/Images/image copy 6.png', alt: 'THE PERFUME ESSENCE luxury collection 7' },
-  { src: '/Images/image copy 7.png', alt: 'THE PERFUME ESSENCE luxury collection 8' },
-  { src: '/Images/image copy 8.png', alt: 'THE PERFUME ESSENCE luxury collection 9' },
-  { src: '/Images/image copy 9.png', alt: 'THE PERFUME ESSENCE luxury collection 10' },
-]
-
-const Hero = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [direction, setDirection] = useState(1)
-  const touchStartX = useRef<number | null>(null)
-  const touchEndX = useRef<number | null>(null)
-  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
-
-  const nextSlide = useCallback(() => {
-    setDirection(1)
-    setCurrentIndex((prev) => (prev + 1) % sliderImages.length)
-  }, [])
-
-  const prevSlide = useCallback(() => {
-    setDirection(-1)
-    setCurrentIndex((prev) => (prev - 1 + sliderImages.length) % sliderImages.length)
-  }, [])
-
-  const goToSlide = (index: number) => {
-    setDirection(index > currentIndex ? 1 : -1)
-    setCurrentIndex(index)
-  }
-
-  // Autonomous auto-slider: continues moving smoothly on its own
-  useEffect(() => {
-    autoPlayRef.current = setInterval(() => {
-      nextSlide()
-    }, 3800)
-
-    return () => {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current)
-    }
-  }, [nextSlide, currentIndex])
-
-  // Touch swipe handling
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.targetTouches[0].clientX
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.targetTouches[0].clientX
-  }
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return
-    const distance = touchStartX.current - touchEndX.current
-    const minSwipeDistance = 50
-
-    if (distance > minSwipeDistance) {
-      nextSlide()
-    } else if (distance < -minSwipeDistance) {
-      prevSlide()
-    }
-
-    touchStartX.current = null
-    touchEndX.current = null
-  }
-
-  return (
-    <section className='relative w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-8 pt-1 pb-6 sm:pb-10 flex flex-col items-center overflow-hidden'>
-      {/* Refined Rotating Header */}
-      <div className='text-center my-2 sm:my-3'>
-        <span className='text-[10px] sm:text-xs uppercase tracking-[0.35em] text-amber-800 font-semibold mb-1 block'>
-          THE PERFUME ESSENCE • HAUTE PARFUMERIE
-        </span>
-        <RotatingText
-          texts={['Luxury Perfumes', 'Signature Fragrances', 'Exclusive Editions', 'Artisanal Scents']}
-          mainClassName="px-4 text-2xl sm:text-3xl md:text-5xl lg:text-[54px] font-normal text-zinc-900 text-center max-w-4xl mx-auto my-1 tracking-tight"
-          staggerFrom={"last"}
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "-120%" }}
-          staggerDuration={0.025}
-          splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1"
-          transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          rotationInterval={2800}
-        />
-      </div>
-
-      {/* Slider Container - Decreased height & perfect framing to avoid cutting image */}
-      <div
-        className='relative w-full h-[45vh] sm:h-[55vh] md:h-[64vh] lg:h-[68vh] min-h-[300px] sm:min-h-[400px] max-h-[600px] overflow-hidden rounded-2xl sm:rounded-3xl select-none group shadow-2xl border border-stone-200/70 bg-stone-950'
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <AnimatePresence mode="popLayout" custom={direction} initial={false}>
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            initial={{ opacity: 0, scale: 1.03 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.85, ease: [0.4, 0, 0.2, 1] }}
-            className='absolute inset-0 w-full h-full'
-          >
-            <Image
-              src={sliderImages[currentIndex].src}
-              alt={sliderImages[currentIndex].alt}
-              fill
-              priority={currentIndex === 0 || currentIndex === 1}
-              sizes="(max-width: 768px) 100vw, 1440px"
-              className="w-full h-full object-contain"
-            />
-            {/* Elegant Luxury Vignette Overlays */}
-            <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-black/20 pointer-events-none' />
-            <div className='absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20 pointer-events-none' />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Previous Slide Arrow */}
-        <button
-          onClick={prevSlide}
-          aria-label="Previous Slide"
-          className='absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3.5 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-md text-white border border-white/20 transition-all duration-300 shadow-xl hover:scale-110 active:scale-95 cursor-pointer opacity-80 group-hover:opacity-100'
-        >
-          <FiChevronLeft className='w-5 h-5 sm:w-6 sm:h-6' />
-        </button>
-
-        {/* Next Slide Arrow */}
-        <button
-          onClick={nextSlide}
-          aria-label="Next Slide"
-          className='absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 p-2.5 sm:p-3.5 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-md text-white border border-white/20 transition-all duration-300 shadow-xl hover:scale-110 active:scale-95 cursor-pointer opacity-80 group-hover:opacity-100'
-        >
-          <FiChevronRight className='w-5 h-5 sm:w-6 sm:h-6' />
-        </button>
-
-        {/* Call To Action Buttons */}
-        <div className='absolute w-full flex flex-row justify-center items-center gap-3 sm:gap-4 left-1/2 bottom-12 sm:bottom-14 -translate-x-1/2 z-20 px-4'>
-          <Link
-            className={`${serif.className} text-xs sm:text-sm md:text-base px-6 sm:px-8 py-2.5 sm:py-3 font-medium backdrop-blur-md border rounded-full border-white/80 bg-white/25 text-white hover:bg-white hover:text-black text-center shadow-2xl hover:scale-105 transition-all duration-300`}
-            href="/collections"
-          >
-            Explore Collections
-          </Link>
-          <Link
-            className={`${serif.className} text-xs sm:text-sm md:text-base px-6 sm:px-8 py-2.5 sm:py-3 font-medium border rounded-full border-zinc-700 bg-zinc-950/80 text-white hover:bg-black hover:border-amber-600/50 text-center shadow-2xl hover:scale-105 transition-all duration-300 backdrop-blur-md`}
-            href="/collections/perfumes"
-          >
-            Shop Perfumes
-          </Link>
-        </div>
-
-        {/* Slide Indicator Dots */}
-        <div className='absolute bottom-3.5 sm:bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10'>
-          {sliderImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => goToSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`transition-all duration-300 rounded-full cursor-pointer ${idx === currentIndex
-                ? 'w-7 sm:w-8 h-1.5 bg-amber-400 shadow-sm'
-                : 'w-2 sm:w-2.5 h-1.5 bg-white/40 hover:bg-white/70'
-                }`}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+interface HeroSlide {
+  id: number;
+  eyebrow: string;
+  headingLine1: string;
+  headingLine2: string;
+  headingLine3?: string;
+  subtext: string;
+  primaryBtnText: string;
+  primaryBtnLink: string;
+  secondaryBtnText?: string;
+  secondaryBtnLink?: string;
+  notesTag: string;
+  image: string;
+  alt: string;
 }
 
-export default Hero
+const slides: HeroSlide[] = [
+  {
+    id: 1,
+    eyebrow: 'THE PERFUME ESSENCE • EST. 2024',
+    headingLine1: '',
+    headingLine2: '',
+    headingLine3: '',
+    subtext:
+      '',
+    primaryBtnText: 'SHOP PERFUMES',
+    primaryBtnLink: '/collections/perfumes',
+    secondaryBtnText: 'EXPLORE COLLECTION',
+    secondaryBtnLink: '/collections/all',
+    notesTag: 'Extrait de Parfum • Rare Amber & Night Jasmine',
+    image: '/moon_essence_1.jpg',
+    alt: 'THE PERFUME ESSENCE - Moon Essence Luxury Perfume Campaign',
+  },
+  {
+    id: 2,
+    eyebrow: 'MOON ESSENCE • HAUTE PARFUMERIE',
+    headingLine1: '',
+    headingLine2: '',
+    headingLine3: '',
+    subtext:
+      '',
+    primaryBtnText: 'DISCOVER MOON ESSENCE',
+    primaryBtnLink: '/collections/perfumes',
+    secondaryBtnText: 'SIGNATURE EDITIONS',
+    secondaryBtnLink: '/collections/deals',
+    notesTag: 'Amethyst Nights • Moonlight Violet & Mysore Sandalwood',
+    image: '/moon_essence_2.jpg',
+    alt: 'MOON ESSENCE - Amethyst Nights Nocturnal Fragrance Campaign',
+  },
+  {
+    id: 3,
+    eyebrow: 'THE SIGNATURE COLLECTION',
+    headingLine1: '',
+    headingLine2: '',
+    headingLine3: '',
+    subtext:
+      ', captivating impression.',
+    primaryBtnText: 'SHOP BESTSELLERS',
+    primaryBtnLink: '/collections/deals',
+    secondaryBtnText: 'ALL EDITIONS',
+    secondaryBtnLink: '/collections/all',
+    notesTag: 'Private Atelier • Royal Oud & Amber Céleste',
+    image: '/moon_essence_3.jpg',
+    alt: 'THE SIGNATURE COLLECTION - Haute Parfumerie Flacons',
+  },
+];
 
+const Hero = () => {
+  const [current, setCurrent] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const nextSlide = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+  }, []);
+
+  const goToSlide = (idx: number) => {
+    setCurrent(idx);
+  };
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    timerRef.current = setInterval(nextSlide, 7000);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [nextSlide, isAutoPlaying]);
+
+  const activeSlide = slides[current];
+
+  return (
+    <section
+      className="relative w-full overflow-hidden bg-[#19151D] text-[#F7F2E8] select-none font-serif min-h-[640px] h-[82vh] sm:h-[86vh] lg:h-[88vh] max-h-[940px] flex items-center"
+      onMouseEnter={() => setIsAutoPlaying(false)}
+      onMouseLeave={() => setIsAutoPlaying(true)}
+      aria-label="Moon Essence Luxury Hero Slider"
+    >
+      {/* Background Slides with Smooth Luxury Crossfade & Subtle Zoom */}
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={activeSlide.id}
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          className="absolute inset-0 w-full h-full"
+        >
+          <Image
+            src={activeSlide.image}
+            alt={activeSlide.alt}
+            fill
+            priority
+            quality={95}
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+
+          {/* Cinematic Moon Essence Atmosphere & Editorial Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#19151D]/90 via-[#21132F]/70 to-[#19151D]/30 md:from-[#19151D]/95 md:via-[#21132F]/65 md:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#19151D] via-transparent to-[#19151D]/40" />
+          <div className="absolute inset-0 bg-[#2C183D]/15 pointer-events-none mix-blend-color" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Foreground Content Container */}
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12 flex items-center">
+        <div className="max-w-2xl lg:max-w-3xl space-y-5 sm:space-y-6">
+
+          {/* Eyebrow & Notes Badge */}
+          <motion.div
+            key={`eyebrow-${current}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex items-center gap-3"
+          >
+            <span className="h-px w-8 sm:w-12 bg-[#C8A45D]" />
+            <span className="text-[10px] sm:text-[11px] md:text-xs uppercase tracking-[0.35em] text-[#C8A45D] font-normal">
+              {activeSlide.eyebrow}
+            </span>
+          </motion.div>
+
+          {/* Editorial Main Heading */}
+          <motion.div
+            key={`heading-${current}`}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] tracking-tight font-normal text-[#F7F2E8] drop-shadow-sm">
+              <span>{activeSlide.headingLine1}</span> <br />
+              <span className="italic text-[#DCC7A3] font-normal">{activeSlide.headingLine2}</span>{' '}
+              {activeSlide.headingLine3 && (
+                <>
+                  <br />
+                  <span>{activeSlide.headingLine3}</span>
+                </>
+              )}
+            </h1>
+          </motion.div>
+
+          {/* Subtext */}
+          <motion.p
+            key={`subtext-${current}`}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-sm sm:text-base md:text-lg text-[#F7F2E8]/85 max-w-xl font-normal leading-relaxed tracking-wide"
+          >
+            {activeSlide.subtext}
+          </motion.p>
+
+          {/* Notes Tag */}
+          <motion.div
+            key={`tag-${current}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="inline-flex items-center gap-2 py-1 px-3 bg-[#21132F]/80 backdrop-blur-sm border border-[#C8A45D]/40 text-[10px] sm:text-[11px] text-[#DCC7A3] tracking-[0.18em]"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45D]" />
+            <span>{activeSlide.notesTag}</span>
+          </motion.div>
+
+          {/* Call To Action Buttons */}
+          <motion.div
+            key={`buttons-${current}`}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 pt-2"
+          >
+            <Link
+              href={activeSlide.primaryBtnLink}
+              className="btn-luxury-primary !bg-[#21132F] !text-[#F7F2E8] !border-[#C8A45D] hover:!bg-[#C8A45D] hover:!text-[#19151D] shadow-[0_8px_24px_-6px_rgba(33,19,47,0.6)]"
+            >
+              <span>{activeSlide.primaryBtnText}</span>
+              <FiArrowRight className="ml-2.5 w-4 h-4" />
+            </Link>
+
+            {activeSlide.secondaryBtnText && activeSlide.secondaryBtnLink && (
+              <Link
+                href={activeSlide.secondaryBtnLink}
+                className="btn-luxury-ghost-light"
+              >
+                <span>{activeSlide.secondaryBtnText}</span>
+              </Link>
+            )}
+          </motion.div>
+
+        </div>
+      </div>
+
+      {/* Slider Left & Right Circular Controls */}
+      <div className="hidden sm:flex absolute right-6 md:right-12 bottom-12 z-30 items-center gap-3">
+        <button
+          onClick={prevSlide}
+          aria-label="Previous Campaign Slide"
+          className="w-11 h-11 rounded-full border border-[#F7F2E8]/30 bg-[#19151D]/50 backdrop-blur-md text-[#F7F2E8] flex items-center justify-center hover:border-[#C8A45D] hover:bg-[#21132F] hover:text-[#C8A45D] transition-all duration-300 cursor-pointer shadow-lg hover:scale-105"
+        >
+          <FiChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={nextSlide}
+          aria-label="Next Campaign Slide"
+          className="w-11 h-11 rounded-full border border-[#F7F2E8]/30 bg-[#19151D]/50 backdrop-blur-md text-[#F7F2E8] flex items-center justify-center hover:border-[#C8A45D] hover:bg-[#21132F] hover:text-[#C8A45D] transition-all duration-300 cursor-pointer shadow-lg hover:scale-105"
+        >
+          <FiChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Bottom Editorial Progress Indicators (01 —— 02 —— 03) */}
+      <div className="absolute left-5 sm:left-8 lg:left-12 bottom-6 sm:bottom-10 z-30 flex items-center gap-4 sm:gap-6">
+        {slides.map((s, idx) => {
+          const isActive = idx === current;
+          return (
+            <button
+              key={s.id}
+              onClick={() => goToSlide(idx)}
+              aria-label={`Go to slide ${idx + 1}`}
+              className="group flex items-center gap-2.5 cursor-pointer py-2 focus:outline-none"
+            >
+              <span
+                className={`text-[11px] sm:text-xs tracking-[0.2em] font-serif transition-colors duration-300 ${isActive ? 'text-[#C8A45D] font-semibold' : 'text-[#F7F2E8]/50 group-hover:text-[#F7F2E8]'
+                  }`}
+              >
+                0{s.id}
+              </span>
+              <span
+                className={`h-[1.5px] transition-all duration-500 ease-out ${isActive
+                  ? 'w-10 sm:w-16 bg-[#C8A45D]'
+                  : 'w-4 sm:w-6 bg-[#F7F2E8]/30 group-hover:w-8 group-hover:bg-[#F7F2E8]/70'
+                  }`}
+              />
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

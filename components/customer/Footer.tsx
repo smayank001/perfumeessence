@@ -1,76 +1,178 @@
-import { collections } from '@/lib/constants'
-import { serif } from '@/lib/fonts'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import { FiFacebook, FiInstagram } from 'react-icons/fi'
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { FiInstagram, FiFacebook, FiArrowRight, FiCheck } from 'react-icons/fi';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail('');
+    setTimeout(() => setSubscribed(false), 5000);
+  };
+
   return (
-    <footer className='border-t border-zinc-200 bg-white text-zinc-900'>
-      <div className='max-w-7xl mx-auto px-6 py-16 md:py-24'>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12'>
-
-          {/* Brand Column */}
-          <div className='space-y-6'>
-            <Link href="/" className={`mb-3 inline-block`}>
-              <Image src="/Images/logo.png" alt="THE PERFUME ESSENCE logo" width={140} height={140} className="object-contain h-16 w-auto rounded-sm shadow-sm" />
+    <footer className="relative w-full bg-[#21132F] text-[#F7F2E8] font-serif border-t border-[#45265C] select-none">
+      {/* Main Footer Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-16 md:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12">
+          
+          {/* Column 1: Brand & Philosophy (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            <Link href="/" className="inline-block">
+              <div className="flex flex-col">
+                <span className="text-xl sm:text-2xl tracking-[0.24em] uppercase font-normal text-[#F7F2E8]">
+                  THE PERFUME ESSENCE
+                </span>
+                <span className="text-[9px] tracking-[0.38em] uppercase text-[#DCC7A3]">
+                  MOON ESSENCE ATELIER • EST. 2024
+                </span>
+              </div>
             </Link>
-            <p className='text-zinc-500 text-sm leading-relaxed max-w-xs font-light'>
-              Redefining luxury craftsmanship in India. From timeless timepieces to handcrafted jewelry, we bring elegance to your every moment.
+
+            <p className="text-xs sm:text-sm text-[#A58AB8] leading-relaxed font-normal max-w-sm">
+              An Indian luxury fragrance house and purveyor of nocturnal essences, 
+              handcrafted jewelry, and precision timepieces. Crafted to inspire lingering memories.
             </p>
-            <div className='flex gap-5 pt-2'>
-              <Link aria-label='Instagram' href="" target='_blank' className='hover:text-amber-800 transition-colors'>
-                <FiInstagram size={20} />
-              </Link>
-              <Link aria-label='Facebook' href="" target='_blank' className='hover:text-amber-800 transition-colors'>
-                <FiFacebook size={20} />
-              </Link>
+
+            {/* Social Links */}
+            <div className="flex items-center gap-4 pt-2">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#DCC7A3]">
+                Follow Us:
+              </span>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="w-8 h-8 rounded-full border border-[#45265C] bg-[#2C183D] flex items-center justify-center text-[#DCC7A3] hover:bg-[#C8A45D] hover:text-[#19151D] hover:border-[#C8A45D] transition-all"
+              >
+                <FiInstagram className="w-3.5 h-3.5" />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Facebook"
+                className="w-8 h-8 rounded-full border border-[#45265C] bg-[#2C183D] flex items-center justify-center text-[#DCC7A3] hover:bg-[#C8A45D] hover:text-[#19151D] hover:border-[#C8A45D] transition-all"
+              >
+                <FiFacebook className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
 
-          {/* Collections Column - High SEO Value */}
-          <div className='lg:col-span-2'>
-            <h3 className='text-[12px] uppercase tracking-[0.3em] font-bold mb-8 text-zinc-800'>Collections</h3>
-            <div className='grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4'>
-              {collections.map((item) => (
-                <Link
-                  key={item.link}
-                  href={item.link}
-                  className='text-[13px] font-light text-zinc-600 hover:text-zinc-900 hover:translate-x-1 transition-all'
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Quick Links Column */}
-          <div>
-            <h3 className='text-[12px] uppercase tracking-[0.3em] font-bold mb-8 text-zinc-800'>Client Services</h3>
-            <nav className='flex flex-col gap-4'>
-              <Link href="/contact-information" className='text-[13px] font-light text-zinc-600 hover:text-zinc-900 transition-colors'>Contact Us</Link>
-              <Link href="/shipping-policy" className='text-[13px] font-light text-zinc-600 hover:text-zinc-900 transition-colors'>Shipping & Delivery</Link>
-              <Link href="/return-refund-policy" className='text-[13px] font-light text-zinc-600 hover:text-zinc-900 transition-colors'>Returns & Exchanges</Link>
-              <Link href="/privacy-policy" className='text-[13px] font-light text-zinc-600 hover:text-zinc-900 transition-colors'>Privacy Policy</Link>
-              <Link href="/terms-service" className='text-[13px] block sm:hidden font-light text-zinc-600 hover:text-zinc-900 transition-colors'>Terms of Service</Link>
+          {/* Column 2: Shop / Collections (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#C8A45D] font-normal pb-2 border-b border-[#45265C]">
+              Shop Collections
+            </h4>
+            <nav className="flex flex-col space-y-2.5 text-xs sm:text-sm text-[#A58AB8]">
+              <Link href="/collections/perfumes" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Moon Essence Perfumes
+              </Link>
+              <Link href="/collections/deals" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Signature Fragrances
+              </Link>
+              <Link href="/collections/watches" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Precision Timepieces
+              </Link>
+              <Link href="/collections/jewelry-set" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Fine Jewellery Sets
+              </Link>
+              <Link href="/collections/stainless-steel-bracelets" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Stainless Steel Bracelets
+              </Link>
+              <Link href="/collections/gold-platted-bracelets" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Gold Plated Collection
+              </Link>
+              <Link href="/collections/all" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                All Atelier Releases
+              </Link>
             </nav>
           </div>
+
+          {/* Column 3: Customer Care (2 cols) */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#C8A45D] font-normal pb-2 border-b border-[#45265C]">
+              Customer Care
+            </h4>
+            <nav className="flex flex-col space-y-2.5 text-xs sm:text-sm text-[#A58AB8]">
+              <Link href="/contact-information" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Contact Concierge
+              </Link>
+              <Link href="/shipping-policy" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Shipping & Delivery
+              </Link>
+              <Link href="/return-refund-policy" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Returns & Exchanges
+              </Link>
+              <Link href="/privacy-policy" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-service" className="hover:text-[#F7F2E8] transition-colors luxury-link self-start">
+                Terms of Service
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 4: Newsletter (3 cols) */}
+          <div className="lg:col-span-3 space-y-4">
+            <h4 className="text-xs uppercase tracking-[0.25em] text-[#C8A45D] font-normal pb-2 border-b border-[#45265C]">
+              Join the Atelier
+            </h4>
+            <p className="text-xs text-[#A58AB8] leading-relaxed font-normal">
+              Receive private invitations, fragrance releases, and exclusive member privileges.
+            </p>
+
+            <form onSubmit={handleSubscribe} className="space-y-2.5">
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  required
+                  className="w-full px-4 py-3 bg-[#2C183D] border border-[#45265C] text-xs text-[#F7F2E8] placeholder-[#A58AB8]/60 focus:outline-none focus:border-[#C8A45D] font-serif transition-colors"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-[#C8A45D] text-[#19151D] hover:bg-[#DCC7A3] hover:text-[#19151D] py-3 text-[11px] uppercase tracking-[0.2em] font-normal flex items-center justify-center gap-1.5 cursor-pointer shadow-md transition-all"
+              >
+                {subscribed ? (
+                  <>
+                    <FiCheck className="w-3.5 h-3.5" />
+                    <span>Subscribed to Atelier</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Subscribe</span>
+                    <FiArrowRight className="w-3.5 h-3.5" />
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className='border-t border-zinc-100 bg-zinc-50 py-8 px-3 sm:px-6'>
-        <div className='max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] sm:text-[11px] tracking-widest text-zinc-400 uppercase'>
-          <p>&copy; {new Date().getFullYear()} THE PERFUME ESSENCE. ALL RIGHTS RESERVED.</p>
-          {/*<div className='flex gap-1 sm:gap-3 md:gap-8'>
-            <Link href="/terms-service" className='hover:text-zinc-900 transition-colors hidden sm:block'>Terms of Service</Link>
-            <p className='block'>Designed & Developed by <Link className="italic underline font-semibold text-zinc-900" target="_blank" href="https://scrupulous.vercel.app">Scrupulous</Link></p>
-          </div>*/}
+      {/* Bottom Legal & Geo Bar */}
+      <div className="border-t border-[#45265C] bg-[#19151D] py-6 px-4 sm:px-6 lg:px-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] uppercase tracking-[0.2em] text-[#A58AB8]">
+          <p>© {new Date().getFullYear()} THE PERFUME ESSENCE. ALL RIGHTS RESERVED.</p>
+          <p className="text-center md:text-right text-[#DCC7A3]">
+            BASED IN NEW DELHI • DELIVERING TO MUMBAI, BENGALURU & PAN-INDIA
+          </p>
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

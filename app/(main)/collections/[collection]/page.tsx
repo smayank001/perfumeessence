@@ -147,7 +147,7 @@ const breadcrumbJsonLd = {
 };
 
   return (
-    <main className='pt-18 lg:pt-24 px-3 max-w-7xl mx-auto'>
+    <main className="pt-28 md:pt-36 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto font-serif">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -158,59 +158,72 @@ const breadcrumbJsonLd = {
       />
       <BreadCrumps collection={collection} />
 
-      <h1 className={`${serif.className} capitalize text-3xl sm:text-4xl my-8 mb-4`}>{categoryTitle}</h1>
-      {desc?.description && <p className='mb-8 text-zinc-600 max-w-3xl leading-relaxed text-sm sm:text-base font-light'>{desc.description}</p>}
+      <div className="my-8 pb-6 border-b border-[#D8CEDA]">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#C8A45D] block mb-1 font-normal">
+          CURATED DIRECTORY
+        </span>
+        <h1 className="capitalize text-3xl sm:text-4xl md:text-5xl text-[#21132F] font-normal tracking-tight">
+          {categoryTitle}
+        </h1>
+        {desc?.description && (
+          <p className="mt-2 text-[#6E6472] max-w-3xl leading-relaxed text-xs sm:text-sm font-normal">
+            {desc.description}
+          </p>
+        )}
+      </div>
 
       {products.length === 0 ? (
-        <section className="my-12 py-16 px-6 bg-gradient-to-b from-stone-50 via-white to-stone-50/50 rounded-3xl border border-stone-200/80 text-center max-w-2xl mx-auto shadow-sm">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200/60 text-amber-900 text-xs font-medium uppercase tracking-widest mb-6">
+        <section className="my-12 py-16 px-6 bg-[#FFFFFF] border border-[#D8CEDA] text-center max-w-2xl mx-auto shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#F5F0F7] border border-[#D8CEDA] text-[#C8A45D] text-[10px] uppercase tracking-[0.25em] mb-6">
             <FiClock className="w-3.5 h-3.5" />
-            <span>Collection In Preparation</span>
+            <span>Collection In Formulation</span>
           </div>
 
-          <h2 className={`${serif.className} text-3xl sm:text-4xl text-zinc-900 mb-4`}>
-            Coming Soon...
+          <h2 className="text-2xl sm:text-3xl text-[#21132F] font-normal mb-3">
+            Coming Soon to the Atelier
           </h2>
-          <div className="w-12 h-0.5 bg-amber-700/40 mx-auto mb-6" />
-          <p className="text-stone-600 text-sm sm:text-base font-light leading-relaxed max-w-md mx-auto mb-8">
-            Our master artisans are curating this exclusive {categoryTitle.toLowerCase()} collection. 
-            Explore our ready-to-ship luxury perfumes while we prepare this drop.
+          <div className="w-12 h-px bg-[#C8A45D] mx-auto mb-4" />
+          <p className="text-[#6E6472] text-xs sm:text-sm leading-relaxed max-w-md mx-auto mb-8 font-normal">
+            Our master artisans are currently compounding this exclusive {categoryTitle.toLowerCase()} collection. 
+            Explore our ready-to-ship luxury perfumes while we prepare this release.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/collections/perfumes"
-              className="bg-zinc-900 text-white px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-amber-900 transition-all shadow-lg hover:scale-105 flex items-center gap-2"
+              className="btn-luxury-primary"
             >
               <span>Explore Perfumes</span>
-              <FiArrowRight />
+              <FiArrowRight className="ml-2 w-4 h-4" />
             </Link>
             <Link
               href="/collections"
-              className="border border-zinc-300 text-zinc-800 px-8 py-3.5 rounded-full text-xs uppercase tracking-widest font-semibold hover:bg-zinc-100 transition-all"
+              className="btn-luxury-secondary"
             >
-              All Collections
+              <span>All Collections</span>
             </Link>
           </div>
         </section>
       ) : (
         <>
-          <div className='flex justify-between items-center mb-6'>
-            <div>
-              <label className="text-zinc-500 text-sm inline-block mr-4">Sort By:</label>
+          <div className="flex justify-between items-center mb-6 text-xs text-[#6E6472]">
+            <div className="flex items-center gap-3">
+              <label className="text-[11px] uppercase tracking-[0.16em] text-[#21132F]">Sort By:</label>
               <SortSelect />
             </div>
-            <p className="text-sm text-zinc-500">{products.length} products</p>
+            <p className="text-[11px] uppercase tracking-[0.16em] text-[#A58AB8]">
+              {products.length} Items
+            </p>
           </div>
-          <section className='grid gap-3 md:gap-6 lg:gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6 mb-16'>
-            {products.map((item : productType) => (
+          <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-6 mb-20">
+            {products.map((item: productType) => (
               <CardTwo key={item._id} collectionSlug={collection} {...item} />
             ))}
           </section>
         </>
       )}
     </main>
-  )
+  );
 }
 
-export default page
+export default page;

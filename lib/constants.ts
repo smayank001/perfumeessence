@@ -1,21 +1,23 @@
 export const headerLinks = [
-  {name: "All", link: "/collections/all", subCategory: []},
-  {name: "Watches", link: "/collections/watches", subCategory: []},
-  {name: "Jewelry Set", link: "/collections/jewelry-set", subCategory: []},
-  {name: "Deals", link: "/collections/deals", subCategory: []},
-  {name: "Perfumes", link: "/collections/perfumes", subCategory: []},
-  {name: "Rings", link: "/collections/rings", subCategory: []},
-  {name: "Bags", link: "/collections/bags", subCategory: []},
-  {name: "Stainless Steel Jewelry", link: "", subCategory: [
-    {name: "Stainless Steel Bracelets", link: "/collections/stainless-steel-bracelets"},
-    {name: "Stainless Steel Earrings", link: "/collections/stainless-steel-earrings"},
-    {name: "Stainless Steel Pendants", link: "/collections/stainless-steel-pendants"},
-  ]},
-  {name: "Gold Platted Jewelry", link: "", subCategory: [
-    {name: "Gold Platted Bracelets", link: "/collections/gold-platted-bracelets"},
-    {name: "Gold Platted Earrings", link: "/collections/gold-platted-earrings"},
-  ]},
-]
+  { name: "Perfumes", link: "/collections/perfumes", subCategory: [] },
+  { name: "Collections", link: "/collections", subCategory: [] },
+  { name: "Bestsellers", link: "/collections/deals", subCategory: [] },
+  { name: "New Arrivals", link: "/collections/all", subCategory: [] },
+  {
+    name: "Jewelry",
+    link: "",
+    subCategory: [
+      { name: "Fine Jewelry Sets", link: "/collections/jewelry-set" },
+      { name: "Stainless Steel Bracelets", link: "/collections/stainless-steel-bracelets" },
+      { name: "Stainless Steel Earrings", link: "/collections/stainless-steel-earrings" },
+      { name: "Stainless Steel Pendants", link: "/collections/stainless-steel-pendants" },
+      { name: "Gold Plated Bracelets", link: "/collections/gold-platted-bracelets" },
+      { name: "Gold Plated Earrings", link: "/collections/gold-platted-earrings" },
+      { name: "Prestige Rings", link: "/collections/rings" },
+    ],
+  },
+  { name: "Timepieces", link: "/collections/watches", subCategory: [] },
+];
 export const categories = [
   'watches',
   'jewelry-set',

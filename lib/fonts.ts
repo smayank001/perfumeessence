@@ -1,19 +1,22 @@
-import {Roboto, Lavishly_Yours, Playfair_Display_SC } from "next/font/google"
+import { Playfair_Display, Cormorant_Garamond } from "next/font/google"
 
-
-export const serif = Playfair_Display_SC({
-    weight: "400",
-    subsets: ["latin"],
-    style: ["italic", "normal"]
+export const serif = Playfair_Display({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  style: ["italic", "normal"],
+  variable: "--font-playfair",
 })
 
-export const lavish = Lavishly_Yours({
-    weight: "400",
-    subsets: ["latin"]
+export const lavish = Cormorant_Garamond({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  style: ["italic", "normal"],
+  variable: "--font-cormorant",
 })
 
-export const roboto = Roboto({
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
-    style: ["italic", "normal"],
-    subsets: ["latin"]
-})
+// Times New Roman is the global brand typography
+export const roboto = {
+  className: "font-serif",
+  variable: "--font-serif",
+}
+

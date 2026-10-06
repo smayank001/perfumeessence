@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/config/database";
 import ProductSchema from "@/lib/models/ProductSchema";
 import { NextResponse } from "next/server";
+import { NEXT_PUBLIC_BASE_URL } from "@/config";
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
 
     const products = await ProductSchema.find().lean();
 
-    const siteUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    const siteUrl = NEXT_PUBLIC_BASE_URL;
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">

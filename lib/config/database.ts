@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { MONGODB_URL } from "@/config";
 
 // Cache the connection across hot reloads in Next.js dev mode
 let cached = (global as any).__mongoose_cache;
@@ -8,10 +9,10 @@ if (!cached) {
 }
 
 export const connectDB = async (): Promise<boolean> => {
-  const databaseUrl = process.env.MONGODB_URL;
+  const databaseUrl = MONGODB_URL;
 
   if (!databaseUrl) {
-    console.error("MONGODB_URL is not defined in environment variables.");
+    console.error("MONGODB_URL is not defined in configuration.");
     return false;
   }
 

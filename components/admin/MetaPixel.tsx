@@ -1,7 +1,8 @@
 import Script from "next/script";
 import Image from "next/image";
+import { NEXT_PUBLIC_META_PIXEL_ID } from "@/config";
 
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const PIXEL_ID = NEXT_PUBLIC_META_PIXEL_ID;
 
 export default function MetaPixel() {
 

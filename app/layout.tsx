@@ -16,7 +16,7 @@ export default function RootLayout({
         <meta name="facebook-domain-verification" content="b0ojpnj3ymhjrklgj2d4shzd7hrk4s" />
       </head>
       <body
-        className={`antialiased ${roboto.className}`}
+        className="antialiased font-serif bg-[#F7F2E8] text-[#19151D]"
       >
         <SmoothScroll>
           <CartProvider>

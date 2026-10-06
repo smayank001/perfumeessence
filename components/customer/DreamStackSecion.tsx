@@ -1,15 +1,15 @@
-import React from 'react'
-import CardTwo from './CardTwo'
-import { productType } from '@/type'
+import React from 'react';
+import CardTwo from './CardTwo';
+import { productType } from '@/type';
 
-const DreamStackSecion = ({products}: {products: productType[]}) => {
+const DreamStackSecion = ({ products }: { products: productType[] }) => {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 font-serif">
       {products.map((item, index) => (
-        <CardTwo key={index} collectionSlug='collections/dream-stacking' {...item} />
+        <CardTwo key={item._id || index} collectionSlug={item.category || 'perfumes'} {...item} />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default DreamStackSecion
+export default DreamStackSecion;

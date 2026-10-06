@@ -5,6 +5,7 @@ import order from "@/lib/models/OrderSchema";
 import ProductSchema from "@/lib/models/ProductSchema";
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { EMAIL_USER, EMAIL_APP_PASSWORD } from "@/config";
 
 export const GET = async (req: NextRequest) => {
   const connected = await connectDB();
@@ -35,29 +36,29 @@ export const POST = async (req: NextRequest) => {
     const orderData = JSON.parse(formData.get("orderData") as string);
     const paymentProofFile = formData.get("paymentProof") as File | null;
 
-    const uploadedImages : string[] = []
+    const uploadedImages: string[] = []
 
     if (paymentProofFile && typeof paymentProofFile === "object") {
       const arrayBuffer = await paymentProofFile.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const uploadResult = await new Promise<any>((resolve, reject) => {
-            cloudinary.uploader
-              .upload_stream(
-                {
-                  folder: "The Perfume Essence",
-                  resource_type: "image",
-                },
-                (error, result) => {
-                  if (error) reject(error);
-                  else resolve(result);
-                }
-              )
-              .end(buffer);
-          });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const uploadResult = await new Promise<any>((resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream(
+            {
+              folder: "The Perfume Essence",
+              resource_type: "image",
+            },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          )
+          .end(buffer);
+      });
 
-          uploadedImages.push(uploadResult.secure_url);
-        }
+      uploadedImages.push(uploadResult.secure_url);
+    }
 
 
     const newOrder = await order.create({
@@ -72,7 +73,7 @@ export const POST = async (req: NextRequest) => {
       createdAt: new Date(),
     });
 
-   await Promise.all(
+    await Promise.all(
       orderData.items.map((product: any) =>
         ProductSchema.updateOne(
           { _id: product.productId, "variants.label": product.variant },
@@ -84,8 +85,8 @@ export const POST = async (req: NextRequest) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_APP_PASSWORD,
+        user: EMAIL_USER,
+        pass: EMAIL_APP_PASSWORD,
       },
     });
 
@@ -93,7 +94,7 @@ export const POST = async (req: NextRequest) => {
 
     await transporter.sendMail({
       from: `"The Perfume Essence"`,
-      to: "tahamudassar811@gmail.com",
+      to: "",
       subject: "New Order Received",
       html: adminHtml,
     });

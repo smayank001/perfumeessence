@@ -1,106 +1,131 @@
-'use client'
-import React from 'react'
-import { motion, Variants } from 'framer-motion'
-import Image from 'next/image'
-import { serif } from '@/lib/fonts' // Assuming your serif font is imported here
+'use client';
+
+import React from 'react';
+import { motion, Variants } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FiArrowRight } from 'react-icons/fi';
 
 const Heading = () => {
-  // Animation variants for staggered text reveal
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
+        staggerChildren: 0.1,
+        delayChildren: 0.15,
       },
     },
-  } as Variants
+  };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      filter: 'blur(0px)',
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
     },
-  } as Variants
+  };
 
-  const imageVariants = {
-    hidden: { scale: 0, opacity: 0, rotate: -10 },
-    visible: { 
-      scale: 1, 
-      opacity: 1, 
-      rotate: 0,
-      transition: { duration: 0.6, ease: "easeOut" } 
-    }
-  } as Variants
+  // return (
+  //   <section className="relative w-full bg-[#EFE7DA] py-16 md:py-24 px-4 sm:px-6 lg:px-10 border-b border-[#D8CEDA] font-serif overflow-hidden select-none">
+  //     <div className="max-w-5xl mx-auto text-center">
 
-  return (
-    <section className="relative px-4 sm:px-6 py-0 md:py-32 max-w-7xl mx-auto overflow-hidden">
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className={`${serif.className} text-2xl md:text-3xl lg:text-4xl leading-[1.2] md:leading-[1.1] tracking-tight text-gray-900 text-center md:text-left`}
-      >
-        <motion.div variants={itemVariants} className="block mb-4">
-          <span className="font-semibold">THE PERFUME ESSENCE</span> redefines luxury 
-        </motion.div>
+  //       {/* Subtle Brand Ribbon */}
+  //       <motion.div
+  //         initial={{ opacity: 0, y: 10 }}
+  //         whileInView={{ opacity: 1, y: 0 }}
+  //         viewport={{ once: true }}
+  //         className="inline-flex items-center gap-3 mb-6"
+  //       >
+  //         <span className="h-px w-10 bg-[#C8A45D]" />
+  //         <span className="text-[10px] sm:text-xs uppercase tracking-[0.35em] text-[#68447F] font-normal">
+  //           OUR PHILOSOPHY OF MOONLIT LUXURY
+  //         </span>
+  //         <span className="h-px w-10 bg-[#C8A45D]" />
+  //       </motion.div>
 
-        <motion.div variants={itemVariants} className="inline-flex flex-wrap items-center justify-center md:justify-start gap-x-4">
-          <span>with an exquisite collection of </span>
-          <div className="relative group inline-block">
-            <motion.div variants={imageVariants} className="inline-block align-middle">
-              <Image 
-                src="/Images/image copy 3.png" 
-                alt="THE PERFUME ESSENCE luxury" 
-                width={160} height={80} 
-                className="object-cover w-[80px] h-[45px] md:w-[120px] md:h-[60px] rounded-full grayscale hover:grayscale-0 transition-all duration-500 border border-gray-200 shadow-xl" 
-                />
-            </motion.div>
-          </div>
-          <span className="italic font-light">haute parfumerie</span>
-        </motion.div>
+  //       {/* Editorial Statement */}
+  //       <motion.div
+  //         variants={containerVariants}
+  //         initial="hidden"
+  //         whileInView="visible"
+  //         viewport={{ once: true, amount: 0.3 }}
+  //         className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] leading-[1.35] sm:leading-[1.4] text-[#21132F] font-normal tracking-wide"
+  //       >
+  //         <motion.p variants={itemVariants} className="inline">
+  //           <span className="font-normal text-[#21132F]">THE PERFUME ESSENCE</span> captures the mystery of the moonlight with{' '}
+  //         </motion.p>
 
-        <motion.div variants={itemVariants} className="inline-flex flex-wrap items-center justify-center md:justify-start gap-x-4">
-          <span className="font-normal italic">artisanal essences</span>
-          <div className="relative group inline-block">
-            <motion.div variants={imageVariants} className="inline-block align-middle">
-              <Image 
-                src="/Images/image copy 4.png" 
-                alt="THE PERFUME ESSENCE fragrances" 
-                width={160} height={80} 
-                className="object-cover w-[80px] h-[45px] md:w-[120px] md:h-[60px] rounded-full shadow-xl" 
-              />
-            </motion.div>
-          </div>
-          <span>and luxury</span>
-          <span className="underline decoration-1 underline-offset-8 decoration-ctr/30 italic">perfumes</span>
-        </motion.div>
+  //         {/* Inline Image Medallion 1 */}
+  //         <motion.span variants={itemVariants} className="inline-block align-middle mx-2 my-1">
+  //           <span className="relative inline-block w-[75px] h-[36px] sm:w-[95px] sm:h-[44px] rounded-full overflow-hidden border border-[#C8A45D]/60 shadow-sm align-middle">
+  //             <Image
+  //               src="/moon_essence_2.jpg"
+  //               alt="Moon Essence Fragrance flacon"
+  //               fill
+  //               className="object-cover hover:scale-110 transition-transform duration-500"
+  //             />
+  //           </span>
+  //         </motion.span>
 
-        <motion.div variants={itemVariants} className="inline-flex flex-wrap items-center justify-center md:justify-start gap-x-3">
-           <span>at India’s</span>
-           <motion.div variants={imageVariants} className="inline-block align-middle">
-              <Image 
-                src="/Images/image copy 2.png" 
-                alt="Luxury Fragrance Deals" 
-                width={160} height={80} 
-                className="object-cover w-[80px] h-[45px] md:w-[120px] md:h-[60px] rounded-full shadow-lg" 
-              />
-           </motion.div>
-           <span>most coveted prices.</span>
-        </motion.div>
+  //         <motion.p variants={itemVariants} className="inline italic text-[#68447F]">
+  //           haute parfumerie,{' '}
+  //         </motion.p>
 
-        <motion.div variants={itemVariants} className="block mt-6 text-lg md:text-xl font-sans font-light text-gray-600 max-w-3xl leading-relaxed">
-          From timeless gold-plated pieces to durable stainless steel, our curated selection serves
-          <span className="text-gray-900 font-medium"> New Delhi, Bengaluru and Mumbai</span> with elegance.
-        </motion.div>
-      </motion.div>
-    </section>
-  )
-}
+  //         <motion.p variants={itemVariants} className="inline">
+  //           rare botanical extraits,{' '}
+  //         </motion.p>
 
-export default Heading
+  //         {/* Inline Image Medallion 2 */}
+  //         <motion.span variants={itemVariants} className="inline-block align-middle mx-2 my-1">
+  //           <span className="relative inline-block w-[75px] h-[36px] sm:w-[95px] sm:h-[44px] rounded-full overflow-hidden border border-[#C8A45D]/60 shadow-sm align-middle">
+  //             <Image
+  //               src="/moon_essence_3.jpg"
+  //               alt="Signature Flacon and Raw Botanicals"
+  //               fill
+  //               className="object-cover hover:scale-110 transition-transform duration-500"
+  //             />
+  //           </span>
+  //         </motion.span>
+
+  //         <motion.p variants={itemVariants} className="inline">
+  //           and timeless artisanal pieces crafted for unforgettable sillage.
+  //         </motion.p>
+  //       </motion.div>
+
+  //       {/* Editorial Subtext */}
+  //       <motion.p
+  //         initial={{ opacity: 0, y: 15 }}
+  //         whileInView={{ opacity: 1, y: 0 }}
+  //         viewport={{ once: true }}
+  //         transition={{ duration: 0.7, delay: 0.3 }}
+  //         className="mt-8 text-sm sm:text-base text-[#6E6472] max-w-2xl mx-auto font-normal leading-relaxed tracking-wide"
+  //       >
+  //         Compounded with noble ambers, nocturnal violet florals, and rare aged woods,
+  //         each formulation evolves intimately, creating a radiant aura that lingers effortlessly across day and night.
+  //       </motion.p>
+
+  //       {/* Link */}
+  //       <motion.div
+  //         initial={{ opacity: 0, y: 10 }}
+  //         whileInView={{ opacity: 1, y: 0 }}
+  //         viewport={{ once: true }}
+  //         transition={{ duration: 0.7, delay: 0.4 }}
+  //         className="mt-8"
+  //       >
+  //         <Link
+  //           href="/collections"
+  //           className="inline-flex items-center text-xs uppercase tracking-[0.2em] text-[#21132F] hover:text-[#C8A45D] transition-colors luxury-link pb-1"
+  //         >
+  //           <span>Discover The Atelier Editions</span>
+  //           <FiArrowRight className="ml-2 w-3.5 h-3.5 text-[#C8A45D]" />
+  //         </Link>
+  //       </motion.div>
+
+  //     </div>
+  //   </section>
+  // );
+};
+
+export default Heading;

@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import React, { useState, useEffect } from 'react';
 
 const SaleTimer = () => {
@@ -11,10 +12,8 @@ const SaleTimer = () => {
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      
-      // Set target to 12:00 AM of the next day
       const tonight = new Date();
-      tonight.setHours(24, 0, 0, 0); 
+      tonight.setHours(24, 0, 0, 0);
 
       const diff = tonight.getTime() - now.getTime();
 
@@ -27,7 +26,6 @@ const SaleTimer = () => {
       }
     };
 
-    // Run immediately then start interval
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
 
@@ -37,34 +35,29 @@ const SaleTimer = () => {
   const format = (num: number) => num.toString().padStart(2, '0');
 
   return (
-    <div className="bg-red-50 border border-red-100 p-4 rounded-xl flex items-center justify-between shadow-sm">
-      <div className="space-y-0.5">
-        <p className="text-red-600 font-bold text-sm uppercase tracking-tight flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-          </span>
-          Limited Time Offer
+    <div className="bg-[#FFFFFF] border border-[#D8CEDA] p-4 flex items-center justify-between shadow-sm font-serif select-none">
+      <div className="space-y-0.5 pr-2">
+        <p className="text-[#C8A45D] text-[11px] uppercase tracking-[0.2em] font-normal flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45D] inline-block animate-pulse" />
+          Limited Reserve Edition
         </p>
-        <p className="text-zinc-500 text-[11px] font-medium">Sale ends at midnight!</p>
+        <p className="text-[#6E6472] text-xs font-normal">Complimentary luxury gift with orders today</p>
       </div>
-      
+
       <div className="flex gap-1.5">
         {[
-          { label: 'Hrs', value: timeLeft.hours },
-          { label: 'Min', value: timeLeft.minutes }, // Note: fixed variable reference below
-          { label: 'Sec', value: timeLeft.seconds }
+          { label: 'Hrs', value: format(timeLeft.hours) },
+          { label: 'Min', value: format(timeLeft.minutes) },
+          { label: 'Sec', value: format(timeLeft.seconds) },
         ].map((unit, idx) => (
-           <div key={idx} className="flex flex-col items-center">
-              <div className="bg-white border border-zinc-200 w-10 h-10 flex items-center justify-center rounded-lg shadow-sm">
-                <span className="font-bold text-lg text-zinc-800 tabular-nums">
-                   {unit.label === 'Hrs' ? format(timeLeft.hours) : 
-                    unit.label === 'Min' ? format(timeLeft.minutes) : 
-                    format(timeLeft.seconds)}
-                </span>
-              </div>
-              <span className="text-[10px] mt-1 uppercase text-zinc-400 font-bold tracking-tighter">{unit.label}</span>
-           </div>
+          <div key={idx} className="flex flex-col items-center">
+            <div className="bg-[#F5F0F7] border border-[#D8CEDA] w-9 h-9 flex items-center justify-center">
+              <span className="text-sm font-normal text-[#21132F] tabular-nums">
+                {unit.value}
+              </span>
+            </div>
+            <span className="text-[8px] mt-1 uppercase text-[#68447F] tracking-widest">{unit.label}</span>
+          </div>
         ))}
       </div>
     </div>

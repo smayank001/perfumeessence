@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { productType } from "@/type";
 import ProductTable from "@/components/admin/ProductTable";
+import { NEXT_PUBLIC_BASE_URL } from "@/config";
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<productType[]>([]);
@@ -12,7 +13,7 @@ export default function AdminProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/products`);
+        const res = await axios.get(`${NEXT_PUBLIC_BASE_URL || ''}/api/products`);
         setProducts(Array.isArray(res.data?.data) ? res.data.data : []);
       } catch (error) {
         console.error(error);

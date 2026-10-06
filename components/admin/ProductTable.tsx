@@ -8,6 +8,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { Edit, Trash } from 'lucide-react';
 import { productType } from '@/type';
+import { NEXT_PUBLIC_BASE_URL } from '@/config';
 
 interface ProductTableProps {
   products: productType[];
@@ -21,7 +22,7 @@ export default function ProductTable({ products, setProducts }: ProductTableProp
     if (!confirm("Are you sure you want to delete this product?")) return;
 
     try {
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`);
+      const res = await axios.delete(`${NEXT_PUBLIC_BASE_URL}/api/products/${id}`);
       if (res.status === 200) alert("Product deleted successfully!");
       setProducts(products.filter(product => product._id !== id));
     } catch (err) {

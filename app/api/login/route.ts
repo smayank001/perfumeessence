@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import { connectDB } from "@/lib/config/database";
 import Admin from "@/lib/models/AdminSchema";
+import { TOKEN_SECRET, NODE_ENV } from "@/config";
 
 export const POST = async (req: NextRequest) => {
   const connected = await connectDB();
@@ -30,12 +31,12 @@ export const POST = async (req: NextRequest) => {
       email: findUser.email,
     }
 
-    const token = jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
+    const token = jwt.sign(tokenData, TOKEN_SECRET, { expiresIn: "1d" })
     const response = NextResponse.json({ message: "Login Successfully", success: true })
     
     response.cookies.set("adminToken", token, {
         httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: NODE_ENV === "production",
       sameSite: "lax",
       path: "/", // cookie available everywhere
       maxAge: 60 * 60 * 24, // 1 day

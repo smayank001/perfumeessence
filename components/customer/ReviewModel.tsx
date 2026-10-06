@@ -1,13 +1,13 @@
-"use client";
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
-import { serif } from '@/lib/fonts';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void
+  onSuccess: () => void;
 }
 
 const ReviewModal = ({ isOpen, onClose, onSuccess }: ModalProps) => {
@@ -26,13 +26,12 @@ const ReviewModal = ({ isOpen, onClose, onSuccess }: ModalProps) => {
       });
 
       if (res.ok) {
-        alert("Review submitted successfully!");
         onSuccess();
         setFormData({ name: '', message: '' });
         onClose();
       }
     } catch (error) {
-      console.error("Submission failed", error);
+      console.error('Submission failed', error);
     } finally {
       setLoading(false);
     }
@@ -41,65 +40,79 @@ const ReviewModal = ({ isOpen, onClose, onSuccess }: ModalProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-serif">
           {/* Backdrop with Blur */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#19151D]/75 backdrop-blur-md"
           />
 
           {/* Modal Card */}
-          <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ scale: 0.96, opacity: 0, y: 15 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="bg-white w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden relative z-10"
+            exit={{ scale: 0.96, opacity: 0, y: 15 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-[#FFFFFF] w-full max-w-lg border border-[#D8CEDA] shadow-2xl p-6 sm:p-8 relative z-10 select-none"
           >
-            <div className="p-8">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className={`${serif.className} text-2xl font-bold italic`}>Share your experience</h3>
-                <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <FiX size={20} />
-                </button>
+            <div className="flex justify-between items-start mb-6 pb-4 border-b border-[#F5F0F7]">
+              <div>
+                <span className="text-[9px] uppercase tracking-[0.3em] text-[#68447F]">
+                  Your Experience
+                </span>
+                <h3 className="text-2xl text-[#21132F] font-normal tracking-wide mt-0.5">
+                  Share Your Review
+                </h3>
+              </div>
+              <button
+                onClick={onClose}
+                className="p-2 text-[#A58AB8] hover:text-[#21132F] transition-colors cursor-pointer"
+                aria-label="Close modal"
+              >
+                <FiX size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.2em] text-[#6E6472] mb-1.5 block">
+                  Full Name
+                </label>
+                <input
+                  required
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  placeholder="e.g. Priyanshu Mehta"
+                  className="w-full px-4 py-3 border border-[#D8CEDA] bg-[#F7F2E8] focus:bg-[#FFFFFF] focus:border-[#21132F] outline-none text-sm text-[#21132F] font-serif transition-all"
+                />
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-2 block">Your Name</label>
-                  <input 
-                    required
-                    type="text" 
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    placeholder="Enter your name"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-ctr/20 outline-none transition-all"
-                  />
-                </div>
+              <div>
+                <label className="text-[10px] uppercase tracking-[0.2em] text-[#6E6472] mb-1.5 block">
+                  Your Review / Impressions
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Share your thoughts on the sillage, longevity, packaging, or craftsmanship..."
+                  className="w-full px-4 py-3 border border-[#D8CEDA] bg-[#F7F2E8] focus:bg-[#FFFFFF] focus:border-[#21132F] outline-none text-sm text-[#21132F] font-serif transition-all resize-none"
+                />
+              </div>
 
-                <div>
-                  <label className="text-xs uppercase tracking-widest font-bold text-gray-400 mb-2 block">Your Message</label>
-                  <textarea 
-                    required
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    placeholder="What did you think of THE PERFUME ESSENCE?"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-100 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-ctr/20 outline-none transition-all resize-none"
-                  />
-                </div>
-
-                <button 
-                  disabled={loading}
-                  type="submit"
-                  className="w-full bg-gray-900 text-white py-4 rounded-xl font-bold uppercase tracking-widest text-sm hover:bg-ctr transition-all disabled:opacity-50"
-                >
-                  {loading ? 'Submitting...' : 'Post Review'}
-                </button>
-              </form>
-            </div>
+              <button
+                disabled={loading}
+                type="submit"
+                className="w-full bg-[#21132F] text-[#F7F2E8] border border-[#C8A45D] py-4 text-xs uppercase tracking-[0.2em] hover:bg-[#C8A45D] hover:text-[#19151D] hover:border-[#C8A45D] transition-all disabled:opacity-50 cursor-pointer shadow-sm"
+              >
+                {loading ? 'Submitting...' : 'Post Review'}
+              </button>
+            </form>
           </motion.div>
         </div>
       )}

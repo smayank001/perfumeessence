@@ -1,10 +1,10 @@
-import Link from "next/link";
-import Image from "next/image";
-import { CheckCircle } from "lucide-react";
-import type { Metadata } from "next";
-import Order from "@/lib/models/OrderSchema";
-import { connectDB } from "@/lib/config/database";
-import MetaPurchase from "@/components/admin/MetaPurchase";
+import Link from 'next/link';
+import Image from 'next/image';
+import { FiCheck, FiShoppingBag, FiTruck, FiShield, FiArrowRight } from 'react-icons/fi';
+import type { Metadata } from 'next';
+import Order from '@/lib/models/OrderSchema';
+import { connectDB } from '@/lib/config/database';
+import MetaPurchase from '@/components/admin/MetaPurchase';
 
 interface OrderItem {
   productId: string;
@@ -19,7 +19,8 @@ interface OrderItem {
 }
 
 export const generateMetadata = (): Metadata => ({
-  title: "Thank You",
+  title: 'Order Confirmed — THE PERFUME ESSENCE',
+  description: 'Thank you for your order at THE PERFUME ESSENCE.',
 });
 
 const ThankYouPage = async ({
@@ -29,14 +30,34 @@ const ThankYouPage = async ({
 }) => {
   await connectDB();
 
-  const {id} = await params
+  const { id } = await params;
 
-  const order = await Order.findById(id).lean();
+  let order: any = null;
+  try {
+    order = await Order.findById(id).lean();
+  } catch (e) {
+    console.error(e);
+  }
 
+  if (!order) {
+    return (
+      <main className="min-h-screen flex items-center justify-center font-serif px-4">
+        <div className="bg-[#FFFFFF] border border-[#D8CEDA] p-10 text-center max-w-md w-full shadow-sm">
+          <h1 className="text-2xl text-[#21132F] font-normal mb-2">Order Not Found</h1>
+          <p className="text-xs text-[#6E6472] mb-6">
+            We could not locate this order record in our atelier archives.
+          </p>
+          <Link href="/" className="btn-luxury-primary w-full">
+            Return to Homepage
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="flex pt-28 justify-center items-center min-h-screen bg-gray-50 px-4">
-       <MetaPurchase
+    <main className="min-h-screen pt-28 md:pt-36 pb-24 px-4 sm:px-6 lg:px-10 font-serif flex items-center justify-center">
+      <MetaPurchase
         orderId={order._id.toString()}
         totalPrice={order.totalPrice}
         items={order.items.map((item: OrderItem) => ({
@@ -45,95 +66,130 @@ const ThankYouPage = async ({
         }))}
       />
 
-      <div className="bg-white shadow-lg rounded-xl p-8 max-w-2xl w-full">
-
-        <CheckCircle size={40} className="mx-auto text-green-600 mb-4" />
-
-        <h1 className="text-2xl font-bold text-center mb-2">
-          Thank you for your order!
-        </h1>
-
-        <p className="text-center text-gray-600 mb-6">
-          Your order has been placed successfully. We’ll contact you shortly.
-        </p>
-
-        {/* Order Info */}
-        <div className="border-t pt-4 text-sm space-y-1">
-          <p><strong>Order ID:</strong> <span className="uppercase"> {order.orderId.slice(0,7)} </span></p>
-          <p><strong>Name:</strong> {order.userDetails.fullName}</p>
-          <p><strong>Phone:</strong> {order.userDetails.phone}</p>
-          <p><strong>Email:</strong> {order.userDetails.email || "-"}</p>
-          <p>
-            <strong>Address:</strong> {order.shippingAddress.address}
+      <div className="bg-[#FFFFFF] border border-[#D8CEDA] p-6 sm:p-10 md:p-12 max-w-2xl w-full shadow-md">
+        {/* Certificate Seal */}
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 bg-[#F5F0F7] border border-[#C8A45D] flex items-center justify-center mx-auto mb-4 text-[#21132F]">
+            <FiCheck className="w-7 h-7 text-[#C8A45D]" />
+          </div>
+          <span className="text-[10px] uppercase tracking-[0.35em] text-[#C8A45D] block mb-1 font-normal">
+            ORDER ACQUIRED & CONFIRMED
+          </span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl text-[#21132F] font-normal tracking-tight">
+            Thank You, {order.userDetails.fullName?.split(' ')[0] || 'Patron'}
+          </h1>
+          <p className="text-xs sm:text-sm text-[#6E6472] mt-2 max-w-md mx-auto font-normal leading-relaxed">
+            Your order has been recorded in the Atelier. Our compounding specialists are preparing your shipment with insured protective packaging.
           </p>
         </div>
 
-        {/* Items */}
-        <div className="mt-6 space-y-4">
+        {/* Order Identifier Strip */}
+        <div className="bg-[#F5F0F7] border border-[#D8CEDA] p-4 flex flex-wrap items-center justify-between gap-3 text-xs mb-8">
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#68447F] block">
+              Order Reference
+            </span>
+            <span className="font-sans font-medium text-[#21132F] tracking-wider uppercase text-sm">
+              #{order.orderId ? order.orderId.slice(0, 8) : order._id.toString().slice(-8)}
+            </span>
+          </div>
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#68447F] block">
+              Payment Method
+            </span>
+            <span className="text-[#21132F] capitalize">
+              {order.paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : 'Online Bank Transfer'}
+            </span>
+          </div>
+          <div>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#68447F] block">
+              Status
+            </span>
+            <span className="text-[#21132F] flex items-center gap-1 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8A45D]" /> Confirmed
+            </span>
+          </div>
+        </div>
+
+        {/* Shipping Destination */}
+        <div className="border-b border-[#F5F0F7] pb-6 mb-6 text-xs text-[#6E6472] space-y-1.5">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#21132F] font-medium block mb-2">
+            Dispatched To:
+          </span>
+          <p className="text-[#21132F] font-medium text-sm">{order.userDetails.fullName}</p>
+          <p>{order.shippingAddress.address}, {order.shippingAddress.city} {order.shippingAddress.postalCode !== 'N/A' ? `— ${order.shippingAddress.postalCode}` : ''}</p>
+          <p>Contact: {order.userDetails.phone} {order.userDetails.email !== 'No email' ? `• ${order.userDetails.email}` : ''}</p>
+        </div>
+
+        {/* Items List */}
+        <div className="space-y-4 mb-6">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-[#21132F] font-medium block">
+            Acquired Selections
+          </span>
           {order.items.map((item: OrderItem, index: number) => (
             <div
               key={index}
-              className="flex justify-between items-center border-b pb-3"
+              className="flex justify-between items-center py-2.5 border-b border-[#F5F0F7]"
             >
-              <div className="flex gap-3 items-center">
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  width={50}
-                  height={50}
-                  className="rounded object-cover border"
-                />
-
+              <div className="flex gap-3.5 items-center">
+                <div className="w-12 h-14 bg-[#F5F0F7] relative flex-shrink-0 border border-[#D8CEDA] overflow-hidden">
+                  <Image
+                    src={item.image || '/Images/logo.png'}
+                    alt={item.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <div>
-                  <p className="font-semibold">
+                  <p className="text-xs sm:text-sm font-normal text-[#21132F]">
                     {item.name}
-                    {item.variant !== "default" && (
-                      <span className="text-sm text-gray-500">
-                        {" "}({item.variant})
-                      </span>
-                    )}
                   </p>
-
-                  <p className="text-gray-600 text-sm">
-                    {item.quantity} × ₹{item.finalPrice}
+                  <p className="text-[11px] text-[#6E6472]">
+                    {item.quantity} × ₹{item.finalPrice.toLocaleString()} {item.variant && item.variant !== 'default' ? `• (${item.variant})` : ''}
                   </p>
                 </div>
               </div>
 
-              <p className="font-semibold">
-                ₹{item.quantity * item.finalPrice}
-              </p>
+              <span className="text-xs sm:text-sm font-normal text-[#21132F]">
+                ₹{(item.quantity * item.finalPrice).toLocaleString()}
+              </span>
             </div>
           ))}
         </div>
 
-        {/* Totals */}
-        <div className="mt-4 text-sm space-y-2">
+        {/* Financial Breakdown */}
+        <div className="border-t border-[#D8CEDA] pt-4 space-y-2 text-xs text-[#6E6472]">
           <div className="flex justify-between">
             <span>Shipping</span>
-            <span>
-              {order.shippingCost === 0
-                ? "Free"
-                : `₹${order.shippingCost}`}
+            <span className="text-[#21132F]">
+              {order.shippingCost === 0 ? 'Complimentary' : `₹${order.shippingCost}`}
             </span>
           </div>
-
-          <div className="flex justify-between font-bold text-lg border-t pt-3">
-            <span>Total</span>
-            <span>₹{order.totalPrice}</span>
+          <div className="flex justify-between text-base font-normal text-[#21132F] pt-2 border-t border-[#F5F0F7]">
+            <span className="uppercase tracking-[0.15em]">Total Amount</span>
+            <span className="text-xl sm:text-2xl tracking-wide">
+              ₹{order.totalPrice.toLocaleString()}
+            </span>
           </div>
         </div>
 
-        {/* CTA */}
-        <Link
-          href="/"
-          className="block mt-6 bg-black text-white text-center py-3 rounded-md hover:bg-gray-800 transition"
-        >
-          Continue Shopping
-        </Link>
+        {/* Next Steps / CTA */}
+        <div className="mt-8 pt-6 border-t border-[#F5F0F7] text-center space-y-4">
+          <p className="text-xs text-[#6E6472]">
+            A confirmation dispatch SMS with tracking details will be sent to <strong>{order.userDetails.phone}</strong>.
+          </p>
+          <Link
+            href="/"
+            className="btn-luxury-primary w-full inline-flex items-center justify-center gap-2"
+          >
+            <span>Continue Exploring The Atelier</span>
+            <FiArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
     </main>
   );
 };
 
 export default ThankYouPage;
+

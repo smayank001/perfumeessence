@@ -165,19 +165,17 @@ const jsonLd = {
     { $sample: { size: 8 } },
   ]);
 
-
   return (
-  <main className="pt-19 lg:pt-25 pb-20 px-2 md:px-6 lg:px-12 max-w-[1400px] mx-auto ">
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
+    <main className="pt-28 md:pt-36 pb-20 px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto font-serif">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
-    <script
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-
 
       <MetaViewContent
         productId={product._id.toString()}
@@ -189,124 +187,142 @@ const jsonLd = {
 
       <BreadCrumps collection={product.category} product={product.name} />
 
-    <section className="grid px-3 md:px-0 grid-cols-1 lg:grid-cols-11 gap-16 lg:gap-24">
-
-      <div className="lg:col-span-6">
-        <div className="bg-stone-50 rounded-sm overflow-hidden">
-          <Images images={product.images} name={product.name} />
+      <section className="grid grid-cols-1 lg:grid-cols-11 gap-10 lg:gap-16 my-8">
+        {/* Left: Product Images (Takes 6 columns) */}
+        <div className="lg:col-span-6">
+          <div className="bg-[#FFFFFF] border border-[#D8CEDA] p-2 sm:p-4 shadow-sm">
+            <Images images={product.images} name={product.name} />
+          </div>
         </div>
-      </div>
 
-      {/* Right: Product Details (Takes 5 columns) */}
-      <div className="lg:col-span-5 relative">
-        <div className="sticky top-32 flex flex-col gap-8">
-
-          {/* Header */}
-          <div className="space-y-2">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-stone-500 font-medium">
-              Fine <Link className="italic text-stone-800 underline" href={`/collections/${product.category}`}>{product.category}</Link> Collection
-            </p>
-            <h1 className={`${serif.className} text-4xl lg:text-5xl leading-tight text-zinc-900`}>
-              {product.name}
-            </h1>
-          </div>
-
-          {/* Pricing - Refined */}
-          <div className="flex items-baseline gap-4 border-b border-stone-200 pb-5">
-            {product.hasVariants && product.variants?.length > 1 ? (
-              <div className="flex items-baseline gap-3">
-                <span className="text-2xl font-medium text-zinc-900">
-                  INR 799 – INR 1,499
-                </span>
-                <span className="text-xs text-stone-500 uppercase tracking-wider">
-                  (50 ml / 100 ml)
-                </span>
-              </div>
-            ) : (
-              <>
-                <span className={`text-2xl font-light tracking-tight ${product.onSale ? 'text-stone-400 line-through text-lg' : 'text-zinc-900'}`}>
-                  INR {product.price.toLocaleString()}
-                </span>
-                {product.onSale && product.salePrice && (
-                  <span className="text-2xl font-medium text-ctr">
-                    INR {product.salePrice.toLocaleString()}
-                  </span>
-                )}
-              </>
-            )}
-          </div>
-
-          {/* Product Specifics (e.g. Perfume or Jewelry specs) */}
-          <div className="space-y-3 py-2">
-            {product.category.includes('perfume') && (
-              <div className="grid grid-cols-2 gap-4 text-[13px] uppercase tracking-wider text-stone-600">
-                <div>
-                  <span className="block text-[10px] text-stone-400 mb-1">Volume</span>
-                  {product.variants?.[0]?.label}
-                </div>
-                <div>
-                  <span className="block text-[10px] text-stone-400 mb-1">Concentration</span>
-                  {product.fragranceType}
-                </div>
-              </div>
-            )}
-
-            {/* Added Luxury Note */}
-            <p className="text-[12px] italic text-stone-500">
-              * Each piece is handcrafted and may vary slightly in finish.
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="space-y-4">
-            <AddToCartButton product={productClient} />
-            <p className="text-[11px] text-center uppercase tracking-widest text-stone-400">
-              Complimentary shipping on all orders
-            </p>
-          </div>
-
-          {/* Sale Timer - Styled as a subtle notification */}
-          {product.onSale && (
-            <div className="bg-stone-100 p-4 border-l-2 border-stone-800">
-              <SaleTimer />
+        {/* Right: Product Details (Takes 5 columns) */}
+        <div className="lg:col-span-5 relative">
+          <div className="sticky top-32 flex flex-col gap-6 bg-[#FFFFFF] border border-[#D8CEDA] p-6 sm:p-8 shadow-sm">
+            {/* Category / Sub-heading */}
+            <div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#C8A45D] font-normal block mb-1.5">
+                MOON ESSENCE ATELIER • {product.category.replaceAll('-', ' ')}
+              </span>
+              <h1 className="text-3xl sm:text-4xl text-[#21132F] font-normal leading-tight tracking-tight">
+                {product.name}
+              </h1>
             </div>
-          )}
 
-          {/* Description - Collapsible or minimalist */}
-          <div className="pt-6 border-t border-stone-200">
-            <h3 className="text-[11px] uppercase tracking-[0.2em] font-bold mb-3 text-zinc-900">
-              Details & Materials
-            </h3>
-            <p className="text-stone-700 leading-relaxed text-[15px] font-light">
-              {product.description}
+            {/* Pricing */}
+            <div className="flex items-baseline gap-4 border-b border-[#F5F0F7] pb-5">
+              {product.hasVariants && product.variants?.length > 1 ? (
+                <div className="flex items-baseline gap-3">
+                  <span className="text-2xl sm:text-3xl font-normal text-[#21132F] tracking-wide">
+                    INR 799 – INR 1,499
+                  </span>
+                  <span className="text-xs text-[#A58AB8] uppercase tracking-wider">
+                    (50 ml / 100 ml)
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-baseline gap-3">
+                  {product.onSale && product.salePrice ? (
+                    <>
+                      <span className="text-2xl sm:text-3xl font-normal text-[#21132F] tracking-wide">
+                        INR {product.salePrice.toLocaleString()}
+                      </span>
+                      <span className="text-base text-[#A58AB8] line-through font-normal">
+                        INR {product.price.toLocaleString()}
+                      </span>
+                      <span className="px-2 py-0.5 bg-[#F5F0F7] border border-[#D8CEDA] text-[#68447F] text-[10px] uppercase tracking-widest font-sans">
+                        Privilege Sale
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-2xl sm:text-3xl font-normal text-[#21132F] tracking-wide">
+                      INR {product.price.toLocaleString()}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Perfume Specs or Fragrance Characteristics */}
+            {product.category.includes('perfume') && (
+              <div className="grid grid-cols-2 gap-4 py-3 px-4 bg-[#F5F0F7] border border-[#D8CEDA] text-xs">
+                <div>
+                  <span className="block text-[10px] uppercase tracking-[0.2em] text-[#68447F] mb-0.5">
+                    Standard Volume
+                  </span>
+                  <span className="text-[#21132F] font-medium">
+                    {product.variants?.[0]?.label || '50 ml / 100 ml'}
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-[10px] uppercase tracking-[0.2em] text-[#68447F] mb-0.5">
+                    Concentration
+                  </span>
+                  <span className="text-[#21132F] font-medium">
+                    {product.fragranceType || 'Extrait de Parfum'}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Handcrafted Note */}
+            <p className="text-xs italic text-[#6E6472]">
+              * Hand-compounded with precious botanical essences. Longevity: 12+ hours.
             </p>
+
+            {/* Sale Timer if on sale */}
+            {product.onSale && (
+              <div className="bg-[#F5F0F7] p-4 border border-[#D8CEDA]">
+                <SaleTimer />
+              </div>
+            )}
+
+            {/* Add to Cart Actions */}
+            <div className="space-y-3 pt-2">
+              <AddToCartButton product={productClient} />
+              <p className="text-[11px] text-center uppercase tracking-widest text-[#6E6472]">
+                Complimentary shipping across India on orders above ₹5,000
+              </p>
+            </div>
+
+            {/* Details and Compounding Notes */}
+            <div className="pt-6 border-t border-[#F5F0F7] space-y-3">
+              <h3 className="text-xs uppercase tracking-[0.25em] text-[#21132F] font-normal">
+                Notes & Formulation Details
+              </h3>
+              <p className="text-xs sm:text-sm text-[#6E6472] leading-relaxed font-normal">
+                {product.description}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Related Products Section */}
-    <section className="mt-10 border-t border-stone-100 pt-20">
-      <div className="flex flex-col items-center mb-16 space-y-4">
-        <h3 className={`${serif.className} text-center text-3xl text-zinc-900`}>
-          Complementary Pieces
-        </h3>
-        <div className="h-px w-12 bg-stone-400" />
-      </div>
+      {/* Related Products Section */}
+      {relatedProducts.length > 0 && (
+        <section className="mt-16 md:mt-24 border-t border-[#D8CEDA] pt-16">
+          <div className="text-center max-w-xl mx-auto mb-12">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#C8A45D] block mb-2 font-normal">
+              CURATED HARMONIES
+            </span>
+            <h2 className="text-3xl sm:text-4xl text-[#21132F] font-normal tracking-tight">
+              Complementary Pieces
+            </h2>
+            <div className="w-10 h-px bg-[#C8A45D] mx-auto mt-4" />
+          </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-10">
-        {relatedProducts.map((item: productType) => (
-          <div key={item._id} className="group">
-             <CardTwo
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((item: productType) => (
+              <CardTwo
+                key={item._id}
                 collectionSlug={item.category}
                 {...item}
               />
+            ))}
           </div>
-        ))}
-      </div>
-    </section>
-  </main>
-);
+        </section>
+      )}
+    </main>
+  );
 };
 
 export default Page;
